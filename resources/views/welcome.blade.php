@@ -13,7 +13,7 @@
 
                 $jamBase=file_get_contents("http://api.jambase.com/events?zipCode=".$zip."&page=0&api_key=zfce2m593mb3zyvu88ksbh49");
                 $obj = json_decode($jamBase, true);
-                
+
                 //$details = json_decode(file_get_contents("http://ipinfo.io/204.77.163.50/json"));
                 //file_put_contents('JBaseResp.json',$jamBase);
                 //$devJBASE = file_get_contents("JBaseResp.json");
