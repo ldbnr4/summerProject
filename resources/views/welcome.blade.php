@@ -6,10 +6,10 @@
 	<body>
         <div class ="navbar navbar-inverse">
             <?php
+                $details = file_get_contents("http://ipinfo.io/".$_SERVER['REMOTE_ADDR']."/json");
                 $city = $details->city;
                 $state = $details->region;
                 $zip = $details->postal;
-                $details = file_get_contents("http://ipinfo.io/".$_SERVER['REMOTE_ADDR']."/json");
 
                 $jamBase=file_get_contents("http://api.jambase.com/events?zipCode=".$zip."&page=0&api_key=zfce2m593mb3zyvu88ksbh49");
                 $obj = json_decode($jamBase, true);
