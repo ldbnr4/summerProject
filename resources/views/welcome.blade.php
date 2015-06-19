@@ -6,21 +6,22 @@
 	<body>
         <div class ="navbar navbar-inverse">
             <?php
-                $details = file_get_contents("http://ipinfo.io/".$_SERVER['REMOTE_ADDR']."/json");
+                //$details = file_get_contents("http://ipinfo.io/".$_SERVER['REMOTE_ADDR']."/json");
+                //$details = file_get_contents("http://ipinfo.io/json");
+                $details = json_decode(file_get_contents("http://ipinfo.io/json"));
                 //$details = json_decode(file_get_contents("http://ipinfo.io/204.77.163.50/json"));
-                //$city = $details['city'];
-                //$state = $details['region'];
-                //$zip = $details['postal'];
-                var_dump($details);
+                $city = $details->city;
+                $state = $details->region;
+                $zip = $details->postal;
 
-                //$jamBase=file_get_contents("http://api.jambase.com/events?zipCode=".$zip."&page=0&api_key=zfce2m593mb3zyvu88ksbh49");
-                //$obj = json_decode($jamBase, true);
+                $jamBase=file_get_contents("http://api.jambase.com/events?zipCode=".$zip."&page=0&api_key=zfce2m593mb3zyvu88ksbh49");
+                $obj = json_decode($jamBase, true);
 
                 
                 //file_put_contents('JBaseResp.json',$jamBase);
-                $devJBASE = file_get_contents("JBaseResp.json");
-                $obj = json_decode($devJBASE, true);
-                //echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near ".$city.", ".$state."</b></h1>";
+                //$devJBASE = file_get_contents("JBaseResp.json");
+                //$obj = json_decode($devJBASE, true);
+                echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near ".$city.", ".$state."</b></h1>";
             ?>
         </div>
         <div class="panel panel-primary" style="margin-left: 15%; margin-right: 15%">
