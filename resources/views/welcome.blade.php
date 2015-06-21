@@ -29,7 +29,7 @@
                 /***************************
                  *    Production Settings  *
                  ***************************/
-                $ip = getRealIpAddr();
+                $ip = $ip=$_SERVER['HTTP_CLIENT_IP'];
                 echo $ip;
                 $details = json_decode(file_get_contents("http://ipinfo.io/".$ip."/json"));
                 var_dump($details);
