@@ -34,26 +34,26 @@
                  ***************************/
                 $ip = getUserIP();
                 //echo $ip;
-                $details = json_decode(file_get_contents("http://ipinfo.io/".$ip."/json"));
-                var_dump($details);
+                $details = json_decode(file_get_contents("http://ipinfo.io/".strval($ip)."/json"));
+                //var_dump($details);
                 //**************************
 
-                //$city = $details->city;
-                //$state = $details->region;
-                //$zip = $details->postal;
+                $city = $details->city;
+                $state = $details->region;
+                $zip = $details->postal;
 
                 /***************************
                  *    Production Settings  *
                  ***************************/
-                //$jamBase=file_get_contents("http://api.jambase.com/events?zipCode=".$zip."&page=0&api_key=zfce2m593mb3zyvu88ksbh49");
-                //$obj = json_decode($jamBase, true);
+                $jamBase=file_get_contents("http://api.jambase.com/events?zipCode=".$zip."&page=0&api_key=zfce2m593mb3zyvu88ksbh49");
+                $obj = json_decode($jamBase, true);
                 //***************************
                 
                 //file_put_contents('JBaseResp.json',$jamBase);
-                $devJBASE = file_get_contents("JBaseResp.json");
-                $obj = json_decode($devJBASE, true);
+                //$devJBASE = file_get_contents("JBaseResp.json");
+                //$obj = json_decode($devJBASE, true);
 
-                //echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near ".$city.", ".$state."</b></h1>";
+                echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near ".$city.", ".$state."</b></h1>";
             ?>
         </div>
         <div class="panel panel-primary" style="margin-left: 15%; margin-right: 15%">
