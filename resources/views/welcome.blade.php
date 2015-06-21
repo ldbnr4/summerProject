@@ -45,7 +45,7 @@
                 /***************************
                  *    Production Settings  *
                  ***************************/
-                $jamBase=file_get_contents("http://api.jambase.com/events?zipCode=".$zip."&page=0&api_key=zfce2m593mb3zyvu88ksbh49");
+                $jamBase=file_get_contents("http://api.jambase.com/events?zipCode=".strval($zip)."&page=0&api_key=zfce2m593mb3zyvu88ksbh49");
                 $obj = json_decode($jamBase, true);
                 //***************************
                 
