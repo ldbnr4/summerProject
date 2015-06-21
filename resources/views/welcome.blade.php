@@ -27,13 +27,15 @@
                 }
                 
                 //$details = json_decode(file_get_contents("http://ipinfo.io/204.77.163.50/json"));
+                //$details = json_decode(file_get_contents("http://ipinfo.io/64.136.220.166/json"));
                 
                 /***************************
                  *    Production Settings  *
                  ***************************/
                 $ip = getUserIP();
-                echo $ip;
-                //$details = json_decode(file_get_contents("http://ipinfo.io/".$ip."/json"));
+                //echo $ip;
+                $details = json_decode(file_get_contents("http://ipinfo.io/".$ip."/json"));
+                var_dump($details);
                 //**************************
 
                 //$city = $details->city;
