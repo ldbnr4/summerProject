@@ -6,22 +6,19 @@
 	<body>
         <div class ="navbar navbar-inverse">
             <?php
-                function getUserIP()
+                function getRealIpAddr()
                 {
-                    $client  = @$_SERVER['HTTP_CLIENT_IP'];
-                    $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-                    $remote  = $_SERVER['REMOTE_ADDR'];
-                    if(filter_var($client, FILTER_VALIDATE_IP))
+                    if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
                     {
-                        $ip = $client;
+                      $ip=$_SERVER['HTTP_CLIENT_IP'];
                     }
-                    elseif(filter_var($forward, FILTER_VALIDATE_IP))
+                    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
                     {
-                        $ip = $forward;
+                      $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
                     }
                     else
                     {
-                        $ip = $remote;
+                      $ip=$_SERVER['REMOTE_ADDR'];
                     }
                     return $ip;
                 }
@@ -32,10 +29,10 @@
                 /***************************
                  *    Production Settings  *
                  ***************************/
-                $ip = getUserIP();
-                //echo $ip;
-                $details = json_decode(file_get_contents("http://ipinfo.io/".strval($ip)."/json"));
-                //var_dump($details);
+                $ip = getRealIpAddr();
+                echo $ip;
+                $details = json_decode(file_get_contents("http://ipinfo.io/".$ip."/json"));
+                var_dump($details);
                 //**************************
 
                 $city = $details->city;
@@ -45,7 +42,7 @@
                 /***************************
                  *    Production Settings  *
                  ***************************/
-                $jamBase=file_get_contents("http://api.jambase.com/events?zipCode=".strval($zip)."&page=0&api_key=zfce2m593mb3zyvu88ksbh49");
+                $jamBase=file_get_contents("http://api.jambase.com/events?zipCode=".$zip."&page=0&api_key=zfce2m593mb3zyvu88ksbh49");
                 $obj = json_decode($jamBase, true);
                 //***************************
                 
