@@ -33,6 +33,8 @@
                 //echo $ip;
                 //$details = json_decode(file_get_contents("http://ipinfo.io/".$ip."/json"), true);
                 $details = json_decode(file_get_contents("http://www.telize.com/geoip/".$ip), true);
+                echo "http://www.telize.com/geoip/".$ip;
+                $details = json_decode(file_get_contents("http://www.telize.com/geoip/204.77.163.50"), true);
                 //var_dump($details);
                 //**************************
 
@@ -77,11 +79,11 @@
                         }
                         $person = urlencode($Events['Artists'][0]['Name']);
                         //echo $person."<br>";
-                        $pic = file_get_contents("https://api.spotify.com/v1/search?q=".$person."&type=artist");
+                        //$pic = file_get_contents("https://api.spotify.com/v1/search?q=".$person."&type=artist");
                         //var_dump($pic);
-                        $pic = json_decode($pic, true);
+                        //$pic = json_decode($pic, true);
                         //echo count($pic['artists']['items']);
-                        if(count($pic['artists']['items']) > 0){
+                        /*if(count($pic['artists']['items']) > 0){
                             if(count($pic['artists']['items'][0]['images']) > 0){
                                 if(count($pic['artists']['items'][0]['images'][0]['url']) > 0){
                                     echo '<div class="col-md-4">';
@@ -89,7 +91,7 @@
                                     echo "</div>";
                                 }
                             }
-                        }
+                        }*/
                         echo '<div class="col-md-8 text-center">';
                         echo "Venue: <a  target='_blank' href=".$Events['Venue']['Url'].">".$Events['Venue']['Name']."</a> | ".$Events['Venue']['City'].", ".$Events['Venue']['State'];
                         echo "<br>Artist: ";
