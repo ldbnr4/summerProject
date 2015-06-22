@@ -30,14 +30,17 @@
                  *    Production Settings  *
                  ***************************/
                 $ip = getRealIpAddr();
-                echo $ip;
-                $details = json_decode(file_get_contents("http://ipinfo.io/".$ip."/json"));
-                var_dump($details);
+                //echo $ip;
+                $details = json_decode(file_get_contents("http://ipinfo.io/".$ip."/json"), true);
+                //var_dump($details);
                 //**************************
 
                 //$city = $details->city;
+                echo $details['city'];
                 //$state = $details->region;
+                echo $details['region'];
                 //$zip = $details->postal;
+                echo $details['postal'];
 
                 /***************************
                  *    Production Settings  *
