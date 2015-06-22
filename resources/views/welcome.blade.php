@@ -23,24 +23,24 @@
                     return $ip;
                 }
                 
-                //$details = json_decode(file_get_contents("http://ipinfo.io/204.77.163.50/json"));
-                //$details = json_decode(file_get_contents("http://ipinfo.io/64.136.220.166/json"));
+                $details = json_decode(file_get_contents("http://ipinfo.io/204.77.163.50/json"), true);
+                //$details = json_decode(file_get_contents("http://ipinfo.io/64.136.220.166/json"), true);
                 
                 /***************************
                  *    Production Settings  *
                  ***************************/
-                $ip = getRealIpAddr();
+                //$ip = getRealIpAddr();
                 //echo $ip;
-                $details = json_decode(file_get_contents("http://ipinfo.io/".$ip."/json"), true);
+                //$details = json_decode(file_get_contents("http://ipinfo.io/".$ip."/json"), true);
                 //var_dump($details);
                 //**************************
 
-                //$city = $details->city;
-                echo $details['city'];
-                //$state = $details->region;
-                echo $details['region'];
-                //$zip = $details->postal;
-                echo $details['postal'];
+                $city = $details['city'];
+                //echo $details['city'];
+                $state = $details['region'];
+                //echo $details['region'];
+                $zip = $details['postal'];
+                //echo $details['postal'];
 
                 /***************************
                  *    Production Settings  *
@@ -53,16 +53,28 @@
                 $devJBASE = file_get_contents("JBaseResp.json");
                 $obj = json_decode($devJBASE, true);
 
-                //echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near ".$city.", ".$state."</b></h1>";
+                echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near ".$city.", ".$state."</b></h1>";
             ?>
         </div>
         <div class="panel panel-primary" style="margin-left: 15%; margin-right: 15%">
-            <div class = 'panel-heading text-center'><h3><b>Concerts</b></h3></div>
-            <div class="panel-body">   
+            <div class = 'panel-heading text-center'><h3><b>Concerts</b></h3></div> 
+            <div class='panel-body'>
                 <?php 
-
+                    $prevdate = '';
+                    $prevTime = '';
+                    $j=0;
                     foreach($obj['Events'] as $Events){
-                        echo "Date: ".date_format(date_create($Events['Date']), 'D F d, Y g:ia T')."<br>";
+                        if($prevdate != date_format(date_create($Events['Date']), 'D F d, Y')){
+                            echo '<div class="panel panel-success">';
+                            echo "<h4 class='panel-heading'>".date_format(date_create($Events['Date']), 'D F d, Y')."<br></h4>";
+                        }
+                        echo "<div class='panel-body'>";  
+                        if($prevTime != date_format(date_create($Events['Date']), 'g:ia')){
+                            echo '<div class="panel panel-default">';
+                            echo "<h4 class='panel-heading'>".date_format(date_create($Events['Date']), 'g:ia')."<br></h4>";
+                            echo "<div class='panel-body'>";
+                        }
+                        echo '<div class="col-md-8">';
                         echo "Venue: <a  target='_blank' href=".$Events['Venue']['Url'].">".$Events['Venue']['Name']."</a> | ".$Events['Venue']['City'].", ".$Events['Venue']['State'];
                         echo "<br>Artist: ";
                         $num = count($Events['Artists']);
@@ -74,20 +86,45 @@
                             }
                             $i++;
                         }
-                        echo "<br><a  target='_blank' href =".$Events['TicketUrl'].">Get Tickets</a>";
-
-                        echo "<hr>";
+                        echo "<br><a  target='_blank' href =".$Events['TicketUrl'].">Get Tickets</a><br>";
+                        echo "</div>
+                        $person = urlencode($Events['Artists'][0]['Name']);
+                        //echo $person."<br>";
+                        $pic = file_get_contents("https://api.spotify.com/v1/search?q=".$person."&type=artist");
+                        //var_dump($pic);
+                        $pic = json_decode($pic, true);
+                        //echo count($pic['artists']['items']);
+                        if(count($pic['artists']['items']) > 0){
+                            if(count($pic['artists']['items'][0]['images']) > 0){
+                                if(count($pic['artists']['items'][0]['images'][0]['url']) > 0){
+                                    echo "<img src =' ".$pic['artists']['items'][0]['images'][0]['url']." ' alt = 'artist' style = 'width:auto;max-height:200px;'>";
+                                }
+                            }
+                        }
+                        echo "</div>";
+                        if( $j+1 == (count($obj['Events'])) || date_format(date_create($obj['Events'][$j]['Date']), 'D F d, Y') != date_format(date_create($obj['Events'][$j+1]['Date']), 'D F d, Y')){
+                            echo "</div>";
+                        }
+                        if( $j+1 == (count($obj['Events'])) || date_format(date_create($obj['Events'][$j]['Date']), 'g:ia') != date_format(date_create($obj['Events'][$j+1]['Date']), 'g:ia')){
+                            echo "</div></div>";
+                        }else{
+                            echo "<hr>";   
+                        }
+                        
+                        $prevdate = date_format(date_create($Events['Date']), 'D F d, Y');
+                        $prevTime = date_format(date_create($Events['Date']), 'g:ia');
+                        $j++;
                     }
                     
-                    $pic = file_get_contents("https://api.spotify.com/v1/search?q=Sigma&type=artist");
+                    //$pic = file_get_contents("https://api.spotify.com/v1/search?q=Tech+N9ne&type=artist");
                     //echo $pic['artists'][0];
                     //var_dump($pic);
-                    $pic = json_decode($pic, true);
+                    //$pic = json_decode($pic, true);
         
-                    var_dump( $pic['artists']['items']);
+                    //echo "<img src =' ".$pic['artists']['items'][0]['images'][0]['url']." ' alt = 'artist'>";
 
                 ?>
-
+            </div>
             </div>
         </div>
 	</body>
