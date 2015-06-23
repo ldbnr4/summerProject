@@ -34,7 +34,7 @@
                 //$details = json_decode(file_get_contents("http://ipinfo.io/".$ip."/json"), true);
                 $details = json_decode(file_get_contents("http://www.telize.com/geoip/".$ip), true);
                 //echo "http://www.telize.com/geoip/".$ip;
-                //$details = json_decode(file_get_contents("http://www.telize.com/geoip/204.77.163.50"), true);
+                $details = json_decode(file_get_contents("http://www.telize.com/geoip/204.77.163.50"), true);
                 //var_dump($details);
                 //**************************
 
@@ -48,13 +48,13 @@
                 /***************************
                  *    Production Settings  *
                  ***************************/
-                $jamBase=file_get_contents("http://api.jambase.com/events?zipCode=".$zip."&page=0&api_key=zfce2m593mb3zyvu88ksbh49");
-                $obj = json_decode($jamBase, true);
+                //$jamBase=file_get_contents("http://api.jambase.com/events?zipCode=".$zip."&page=0&api_key=zfce2m593mb3zyvu88ksbh49");
+                //$obj = json_decode($jamBase, true);
                 //***************************
                 
                 //file_put_contents('JBaseResp.json',$jamBase);
-                //$devJBASE = file_get_contents("JBaseResp.json");
-                //$obj = json_decode($devJBASE, true);
+                $devJBASE = file_get_contents("JBaseResp.json");
+                $obj = json_decode($devJBASE, true);
 
                 echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near ".$city.", ".$state."</b></h1>";
             ?>
