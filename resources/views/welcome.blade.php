@@ -33,8 +33,8 @@
                 //echo $ip;
                 //$details = json_decode(file_get_contents("http://ipinfo.io/".$ip."/json"), true);
                 $details = json_decode(file_get_contents("http://www.telize.com/geoip/".$ip), true);
-                echo "http://www.telize.com/geoip/".$ip;
-                $details = json_decode(file_get_contents("http://www.telize.com/geoip/204.77.163.50"), true);
+                //echo "http://www.telize.com/geoip/".$ip;
+                //$details = json_decode(file_get_contents("http://www.telize.com/geoip/204.77.163.50"), true);
                 //var_dump($details);
                 //**************************
 
