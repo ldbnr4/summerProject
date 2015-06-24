@@ -31,7 +31,7 @@
                 $ip = getRealIpAddr();
                 echo $ip;
                 $details = json_decode(file_get_contents("http://www.telize.com/geoip/".$ip), true);
-                var_dump $details;
+                var_dump ($details);
                 //**************************
 
                 $city = $details['city'];
