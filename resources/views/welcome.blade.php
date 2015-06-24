@@ -23,7 +23,7 @@
                     return $ip;
                 }
                 
-                $details = json_decode(file_get_contents("http://www.telize.com/geoip/204.77.163.50"), true);
+                //$details = json_decode(file_get_contents("http://www.telize.com/geoip/204.77.163.50"), true);
 
                 /***************************
                  *    Production Settings  *
