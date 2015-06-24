@@ -1,8 +1,6 @@
 import mechanize
 from lxml import html
-import requests
 import sys
-import json
 
 br = mechanize.Browser()
 br.open("http://www.jambase.com/")
@@ -52,8 +50,6 @@ for row in rows:
                 for location in tag.findall('a'):
                     events['CityState'].append(location.text)
                     #print location.text
-                
                 f.write(str(events))
-                #f.write(str(json.dumps(events,separators=(',', ':','['))))
                 #page.append(events)
                 #print events
