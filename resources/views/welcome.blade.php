@@ -50,7 +50,6 @@
                 echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near ".$city.", ".$state."</b></h1>";
             ?>
         </div>
-        <h1>I'M HEEERE</h1>
         <div class="panel panel-primary" style="margin-left: 15%; margin-right: 15%">
             <div class = 'panel-heading text-center'><h3><b>Concerts</b></h3></div> 
             <div class='panel-body'>
