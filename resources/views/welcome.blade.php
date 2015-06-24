@@ -23,13 +23,15 @@
                     return $ip;
                 }
                 
-                //$details = json_decode(file_get_contents("http://www.telize.com/geoip/204.77.163.50"), true);
+                $details = json_decode(file_get_contents("http://www.telize.com/geoip/204.77.163.50"), true);
 
                 /***************************
                  *    Production Settings  *
                  ***************************/
                 $ip = getRealIpAddr();
+                echo $ip;
                 $details = json_decode(file_get_contents("http://www.telize.com/geoip/".$ip), true);
+                var_dump $details;
                 //**************************
 
                 $city = $details['city'];

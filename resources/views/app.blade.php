@@ -52,7 +52,12 @@
 			</div>
 		</div>
 	</nav>
-
+    <div>
+        <?php
+            echo chdir("../concerts");
+            exec("python jamBase.py 66062 50", $output, $return);
+        ?>
+    </div>
 	@yield('content')
 
 	<!-- Scripts -->
