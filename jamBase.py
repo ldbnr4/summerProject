@@ -42,26 +42,25 @@ for row in rows:
         events['Artists']=[]
         events['CityState']=[]
         if row.attrib.get('class') == 'dateRow':
-            #events['Date'] = row.find('td').find('a').text
-            print row.find('td').find('a').text
+            events['Date'] = row.find('td').find('a').text
+            #print row.find('td').find('a').text
         for tag in row.findall('td'):
             if tag.get('class') == 'artistCol':
                 for artist in tag.findall('a'):
                     #if i == 0:
                         #events['Artists'] = artist.text
                     #else:
-                    #events['Artists'].append(artist.text)
+                    events['Artists'].append(artist.text)
                     #i=+1
-                    print artist.text
+                    #print artist.text
             if tag.get('class') == 'venueCol':
-                #events['Venue'] =  tag.find('a').text
-                print tag.find('a').text
+                events['Venue'] =  tag.find('a').text
+                #print tag.find('a').text
             if tag.get('class') == 'locationCol':
                 for location in tag.findall('a'):
-                    #events['CityState'].append(location.text)
-                    print location.text
-        
-    #print events
+                    events['CityState'].append(location.text)
+                    #print location.text
+            print events
     #page = merge_two_dicts(page,events)
         
     #if row.attrib['class'] == ' '

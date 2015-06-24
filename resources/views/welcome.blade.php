@@ -23,27 +23,18 @@
                     return $ip;
                 }
                 
-                //$details = json_decode(file_get_contents("http://ipinfo.io/204.77.163.50/json"), true);
-                //$details = json_decode(file_get_contents("http://ipinfo.io/64.136.220.166/json"), true);
-                
+                //$details = json_decode(file_get_contents("http://www.telize.com/geoip/204.77.163.50"), true);
+
                 /***************************
                  *    Production Settings  *
                  ***************************/
                 $ip = getRealIpAddr();
-                //echo $ip;
-                //$details = json_decode(file_get_contents("http://ipinfo.io/".$ip."/json"), true);
                 $details = json_decode(file_get_contents("http://www.telize.com/geoip/".$ip), true);
-                //echo "http://www.telize.com/geoip/".$ip;
-                //$details = json_decode(file_get_contents("http://www.telize.com/geoip/204.77.163.50"), true);
-                //var_dump($details);
                 //**************************
 
                 $city = $details['city'];
-                //echo $details['city'];
                 $state = $details['region'];
-                //echo $details['region'];
                 $zip = $details['postal_code'];
-                //echo $details['postal'];
 
                 /***************************
                  *    Production Settings  *
@@ -59,6 +50,7 @@
                 echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near ".$city.", ".$state."</b></h1>";
             ?>
         </div>
+        <h1>I'M HEEERE</h1>
         <div class="panel panel-primary" style="margin-left: 15%; margin-right: 15%">
             <div class = 'panel-heading text-center'><h3><b>Concerts</b></h3></div> 
             <div class='panel-body'>
