@@ -56,7 +56,7 @@
         <?php
             //chdir("../concerts");
             //exec("python jamBase.py 66062 100", $output, $return);
-            echo shell_exec("php -v");
+            echo exec("php -v");
         ?>
     </div>
 	@yield('content')
