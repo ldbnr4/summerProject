@@ -54,9 +54,17 @@
 	</nav>
     <div>
         <?php
-            //chdir("../concerts");
-            //exec("python jamBase.py 66062 100", $output, $return);
-            echo exec("php -v");
+function execute($name) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://adress.to/script.sh?".$name);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return($output);
+}
+            chdir("../concerts");
+            exec("python jamBase.py 66062 100", $output, $return);
+            //echo execute("php -v");
         ?>
     </div>
 	@yield('content')
