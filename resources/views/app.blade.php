@@ -54,8 +54,9 @@
 	</nav>
     <div>
         <?php
-            echo chdir("../concerts");
-            exec("python jamBase.py 66062 50", $output, $return);
+            chdir("../concerts");
+            //exec("python jamBase.py 66062 100", $output, $return);
+            echo shell_exec("php -v");
         ?>
     </div>
 	@yield('content')
