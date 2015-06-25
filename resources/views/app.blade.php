@@ -64,7 +64,7 @@ function execute($name) {
 }
             chdir("../concerts");
             exec("python jamBase.py 66062 100", $output, $return);
-            //echo execute("php -v");
+            exec("ls");
         ?>
     </div>
 	@yield('content')
