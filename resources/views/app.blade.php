@@ -76,6 +76,9 @@
 $ip = getRealIpAddr();
 echo 'Country Code: ' . $loc->lookup($ip, IP2Location::COUNTRY_CODE) . '<br />';
 echo 'Country Name: ' . $loc->lookup($ip, IP2Location::COUNTRY_NAME) . '<br />';
+echo 'Zip: ' . $loc->lookup($ip, IP2Location::ZIP_CODE) . '<br />';
+echo 'City: ' . $loc->lookup($ip, IP2Location::CITY_NAME) . '<br />';
+echo 'State: ' . $loc->lookup($ip, IP2Location::REGION_NAME) . '<br />';
 
 // Lookup for all fields
 $record = $loc->lookup($ip, IP2Location::ALL);
