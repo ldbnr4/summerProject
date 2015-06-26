@@ -53,19 +53,37 @@
 		</div>
 	</nav>
     <div>
-        <?php
-function execute($name) {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://adress.to/script.sh?".$name);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $output = curl_exec($ch);
-        curl_close($ch);
-        return($output);
-}
-            chdir("../concerts");
-            exec("python jamBase.py 66062 100", $output, $return);
-            exec("ls");
-        ?>
+<?php
+    include "../jamBaseBot.php";
+    require_once 'location/IP2Location.php';
+    $loc = new IP2Location('location/databases/IP-COUNTRY-SAMPLE.BIN', IP2Location::FILE_IO);
+ function getRealIpAddr()
+                {
+                    if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
+                    {
+                      $ip=$_SERVER['HTTP_CLIENT_IP'];
+                    }
+                    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
+                    {
+                      $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+                    }
+                    else
+                    {
+                      $ip=$_SERVER['REMOTE_ADDR'];
+                    }
+                    return $ip;
+                }
+$ip = getRealIpAddr();
+echo 'Country Code: ' . $loc->lookup($ip, IP2Location::COUNTRY_CODE) . '<br />';
+echo 'Country Name: ' . $loc->lookup($ip, IP2Location::COUNTRY_NAME) . '<br />';
+
+// Lookup for all fields
+$record = $loc->lookup($ip, IP2Location::ALL);
+
+echo '<pre>';
+print_r($record);
+echo '</pre>';
+?>
     </div>
 	@yield('content')
 
