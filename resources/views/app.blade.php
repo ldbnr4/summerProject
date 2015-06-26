@@ -55,37 +55,9 @@
     <div>
 <?php
     include "../jamBaseBot.php";
-    require_once 'location/IP2Location.php';
-    $loc = new IP2Location('location/databases/IP-COUNTRY-SAMPLE.BIN', IP2Location::FILE_IO);
- function getRealIpAddr()
-                {
-                    if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
-                    {
-                      $ip=$_SERVER['HTTP_CLIENT_IP'];
-                    }
-                    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
-                    {
-                      $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
-                    }
-                    else
-                    {
-                      $ip=$_SERVER['REMOTE_ADDR'];
-                    }
-                    return $ip;
-                }
-$ip = getRealIpAddr();
-echo 'Country Code: ' . $loc->lookup($ip, IP2Location::COUNTRY_CODE) . '<br />';
-echo 'Country Name: ' . $loc->lookup($ip, IP2Location::COUNTRY_NAME) . '<br />';
-echo 'Zip: ' . $loc->lookup($ip, IP2Location::ZIP_CODE) . '<br />';
-echo 'City: ' . $loc->lookup($ip, IP2Location::CITY_NAME) . '<br />';
-echo 'State: ' . $loc->lookup($ip, IP2Location::REGION_NAME) . '<br />';
-
-// Lookup for all fields
-$record = $loc->lookup($ip, IP2Location::ALL);
-
-echo '<pre>';
-print_r($record);
-echo '</pre>';
+    include "../ipBot.php";
+    
+    getLocation('66.87.75.165');
 ?>
     </div>
 	@yield('content')

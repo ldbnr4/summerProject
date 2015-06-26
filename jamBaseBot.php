@@ -2,8 +2,9 @@
 function getEvents( $city, $state, $zip ){
     require_once('simpletest/browser.php');
     $browser = new SimpleBrowser();
-    $date = 
-    $html = $browser->get('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&City='.$city.'&State='.$state.'&Zip='.$zip.'&radius=50&StartDate=6/25/2015&EndDate=6/25/2016&Rec=False&pagenum=1&pasi=1500');
+    $date = date('m/d/Y');
+    $oneYearOn = date('Y-m-d',strtotime(date("m/d/Y", mktime()) . " + 365 day"));
+    $html = $browser->get('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&City='.$city.'&State='.$state.'&Zip='.$zip.'&radius=50&StartDate='.$date.'&EndDate='.$oneYearOn.'&Rec=False&pagenum=1&pasi=1500');
     $dom = new DOMDocument();
     @$dom->loadHTML( $html ); 
     $xpath = new DOMXPath($dom);
