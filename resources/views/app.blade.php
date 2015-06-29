@@ -54,10 +54,10 @@
 	</nav>
     <div>
 <?php
-    //include "../jamBaseBot.php";
-    //include "../ipBot.php";
-    include "../vamos/jamBaseBot.php";
-    include "../vamos/ipBot.php";
+    include "../jamBaseBot.php";
+    include "../ipBot.php";
+    //include "../vamos/jamBaseBot.php";
+    //include "../vamos/ipBot.php";
 
 
     
