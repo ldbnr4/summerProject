@@ -52,39 +52,6 @@
 			</div>
 		</div>
 	</nav>
-    <div>
-<?php
-    include "../jamBaseBot.php";
-    include "../ipBot.php";
-    //include "../vamos/jamBaseBot.php";
-    //include "../vamos/ipBot.php";
-
-
-    
-    function getRealIpAddr()
-                {
-                    if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
-                    {
-                      $ip=$_SERVER['HTTP_CLIENT_IP'];
-                    }
-                    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
-                    {
-                      $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
-                    }
-                    else
-                    {
-                      $ip=$_SERVER['REMOTE_ADDR'];
-                    }
-                    return $ip;
-                }
-    
-    $location = getLocation(getRealIpAddr());
-    //$location = getLocation('204.77.163.50');
-    $events =  getEvents( trim(strval($location[2])), trim($location[0]), trim($location[3]) );
-    var_dump($events);
-    
-?>
-    </div>
 	@yield('content')
 
 	<!-- Scripts -->

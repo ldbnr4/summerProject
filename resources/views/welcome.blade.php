@@ -6,6 +6,10 @@
 	<body>
         <div class ="navbar navbar-inverse">
             <?php
+                //include "../jamBaseBot.php";
+                //include "../ipBot.php";
+                include "../vamos/jamBaseBot.php";
+                include "../vamos/ipBot.php";
                 function getRealIpAddr()
                 {
                     if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
@@ -28,10 +32,8 @@
                 /***************************
                  *    Production Settings  *
                  ***************************/
-                $ip = getRealIpAddr();
-                echo $ip;
-                $details = json_decode(file_get_contents("http://www.telize.com/geoip/".$ip), true);
-                var_dump ($details);
+                //$ip = getRealIpAddr();
+                //$details = json_decode(file_get_contents("http://www.telize.com/geoip/".$ip), true);
                 //**************************
 
                 //$city = $details['city'];
@@ -46,20 +48,74 @@
                 //***************************
 
                 //file_put_contents('JBaseResp.json',$jamBase);
-                $devJBASE = file_get_contents("JBaseResp.json");
-                $obj = json_decode($devJBASE, true);
+                //$devJBASE = file_get_contents("JBaseResp.json");
+                //$obj = json_decode($devJBASE, true);
 
-                //echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near ".$city.", ".$state."</b></h1>";
+                //$location = getLocation(getRealIpAddr());
+                $location = getLocation('204.77.163.50');
+                $city = trim($location[2]);
+                $state = trim($location[0]);
+                $zip = trim($location[3]);
+                $stateFull = trim($location[1]);
+                $events =  getEvents( $city, $state, $zip );
+                file_put_contents('Events.txt',print_r($events, true));
+
+                echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near ".$city.", ".$stateFull."</b></h1>";
             ?>
         </div>
         <div class="panel panel-primary" style="margin-left: 15%; margin-right: 15%">
             <div class = 'panel-heading text-center'><h3><b>Concerts</b></h3></div> 
             <div class='panel-body'>
-                <?php 
+                <?php
                     $prevdate = '';
                     $prevTime = '';
                     $j=0;
-                    foreach($obj['Events'] as $Events){
+foreach($events as $event){
+    if($prevdate != $event[0]){
+        echo '<div class="panel panel-success">';
+        echo "<h4 class='panel-heading'>".date_format(date_create($event[0]), 'D F d, Y')."<br></h4>";
+    }
+    echo '<div class="panel-body">';
+    echo '<div class="col-md-8 text-center">';
+    $person = urlencode($event[1][0]);
+    $pic = file_get_contents("https://api.spotify.com/v1/search?q=".$person."&type=artist");
+    $pic = json_decode($pic, true);
+    if(count($pic['artists']['items']) > 0){
+        if(count($pic['artists']['items'][0]['images']) > 0){
+            if(count($pic['artists']['items'][0]['images'][0]['url']) > 0){
+                echo '<div class="col-md-4">';
+                echo "<img src =' ".$pic['artists']['items'][0]['images'][0]['url']." ' alt = 'artist' style = 'max-width:300;max-height:300;'>";
+                echo "</div>";
+            }
+        }else{
+        echo '<div class="col-md-4">';
+        echo "<img src ='pics/concert.jpg' alt = 'artist' style = 'max-width:300;max-height:300;'>";
+        echo "</div>";
+        }
+    }
+    echo "Venue: ".$event[2];
+    echo "<br>Artist: ";
+    $num = count($event[1]);
+    $i = 1;
+    foreach($event[1] as $artist){
+        echo $artist;
+        if($i != $num){
+            echo ", ";
+        }
+        $i++;
+    }
+    echo "</div>";
+    echo "</div>";
+    echo "<hr>";
+    if( $j+1 == (count($events)) || $events[$j][0] != $events[$j+1][0]){
+        echo "</div>";
+    }
+    $prevdate = $event[0];
+    $j++;
+    if($j==10)
+        break;
+}
+                    /*foreach($obj['Events'] as $Events){
                         if($prevdate != date_format(date_create($Events['Date']), 'D F d, Y')){
                             echo '<div class="panel panel-success">';
                             echo "<h4 class='panel-heading'>".date_format(date_create($Events['Date']), 'D F d, Y')."<br></h4>";
@@ -70,7 +126,7 @@
                             echo "<h4 class='panel-heading'>".date_format(date_create($Events['Date']), 'g:ia')."<br></h4>";
                             echo "<div class='panel-body'>";
                         }
-                        $person = urlencode($Events['Artists'][0]['Name']);
+                        $person = urlencode($Events['Artists'][0]['Name']);*/
                         //echo $person."<br>";
                         //$pic = file_get_contents("https://api.spotify.com/v1/search?q=".$person."&type=artist");
                         //var_dump($pic);
@@ -85,7 +141,7 @@
                                 }
                             }
                         }*/
-                        echo '<div class="col-md-8 text-center">';
+                        /*echo '<div class="col-md-8 text-center">';
                         echo "Venue: <a  target='_blank' href=".$Events['Venue']['Url'].">".$Events['Venue']['Name']."</a> | ".$Events['Venue']['City'].", ".$Events['Venue']['State'];
                         echo "<br>Artist: ";
                         $num = count($Events['Artists']);
@@ -112,7 +168,7 @@
                         $prevdate = date_format(date_create($Events['Date']), 'D F d, Y');
                         $prevTime = date_format(date_create($Events['Date']), 'g:ia');
                         $j++;
-                    }
+                    }*/
                     
                     //$pic = file_get_contents("https://api.spotify.com/v1/search?q=Tech+N9ne&type=artist");
                     //echo $pic['artists'][0];
@@ -124,6 +180,5 @@
                 ?>
             </div>
             </div>
-        </div>
 	</body>
 </html>

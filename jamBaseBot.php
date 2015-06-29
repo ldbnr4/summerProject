@@ -1,7 +1,7 @@
 <?php
 function getEvents( $city, $state, $zip ){
-    require_once('simpletest/browser.php');
-    //require_once('../vamos/simpletest/browser.php');
+    //require_once('simpletest/browser.php');
+    require_once('../vamos/simpletest/browser.php');
     $browser = new SimpleBrowser();
     $date = date('m/d/Y');
     $oneYearOn = date('m/d/Y',strtotime(date("m/d/Y", time()) . " + 365 day"));
