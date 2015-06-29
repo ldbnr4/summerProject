@@ -6,10 +6,10 @@
 	<body>
         <div class ="navbar navbar-inverse">
             <?php
-                //include "../jamBaseBot.php";
-                //include "../ipBot.php";
-                include "../vamos/jamBaseBot.php";
-                include "../vamos/ipBot.php";
+                include "../jamBaseBot.php";
+                include "../ipBot.php";
+                //include "../vamos/jamBaseBot.php";
+                //include "../vamos/ipBot.php";
                 function getRealIpAddr()
                 {
                     if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
