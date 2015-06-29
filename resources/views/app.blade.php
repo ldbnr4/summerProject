@@ -79,9 +79,8 @@
                 }
     
     $location = getLocation(getRealIpAddr());
-    var_dump($location);
-    echo '<hr>';
-    $events =  getEvents( $location[1], $location[0], $location[2] );
+    //$location = getLocation('204.77.163.50');
+    $events =  getEvents( trim(strval($location[2])), trim($location[0]), trim($location[3]) );
     var_dump($events);
     
 ?>

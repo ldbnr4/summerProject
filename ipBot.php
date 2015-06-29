@@ -1,6 +1,7 @@
 <?php
 function getLocation( $ip ){
     require_once('../vamos/simpletest/browser.php');
+    //require_once('../simpletest/browser.php');
     $browser = new SimpleBrowser();
     $html = $browser->get('http://www.ipaddresslabs.com/IPGeolocationServiceDemo.do?ipaddress='.$ip.'#StandardEditionTab');
     $dom = new DOMDocument();
@@ -21,6 +22,12 @@ function getLocation( $ip ){
                 if(!in_array($val,$ret)){
                     array_push($ret,$val);
                 }
+            }
+        }
+        if (strpos($col->nodeValue, 'region_code')){
+            $val = $col->nextSibling->nextSibling->nextSibling->nextSibling->nextSibling->nextSibling->textContent;
+            if(!in_array($val,$ret)){
+                array_push($ret,$val);
             }
         }
         if (strpos($col->nodeValue, 'region_name')){
