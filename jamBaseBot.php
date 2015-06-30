@@ -1,11 +1,11 @@
 <?php
-function getEvents( $city, $state, $zip ){
+function getEvents( $zip ){
     require_once('simpletest/browser.php');
     //require_once('../vamos/simpletest/browser.php');
     $browser = new SimpleBrowser();
     $date = date('m/d/Y');
     $oneYearOn = date('m/d/Y',strtotime(date("m/d/Y", time()) . " + 365 day"));
-    $html = $browser->get('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&City='.$city.'&State='.$state.'&Zip='.$zip.'&radius=50&StartDate='.$date.'&EndDate='.$oneYearOn.'&Rec=False&pagenum=1&pasi=1500');
+    $html = $browser->get('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&Zip='.$zip.'&radius=50&StartDate='.$date.'&EndDate='.$oneYearOn.'&Rec=False&pagenum=1&pasi=1500');
     $dom = new DOMDocument();
     @$dom->loadHTML( $html ); 
     $xpath = new DOMXPath($dom);

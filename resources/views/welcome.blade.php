@@ -58,7 +58,7 @@
                 $zip = trim($location[3]);
                 $stateFull = trim($location[1]);
                 $events =  getEvents( $city, $state, $zip );
-                file_put_contents('Events.txt',print_r($events, true));
+                //file_put_contents('Events.txt',print_r($events, true));
 
                 echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near ".$city.", ".$stateFull."</b></h1>";
             ?>
@@ -70,6 +70,7 @@
                     $prevdate = '';
                     $prevTime = '';
                     $j=0;
+/*
 foreach($events as $event){
     if($prevdate != $event[0]){
         echo '<div class="panel panel-success">';
@@ -112,8 +113,12 @@ foreach($events as $event){
     }
     $prevdate = $event[0];
     $j++;
-    if($j==10)
-        break;
+    //if($j==10)
+    //    break;
+}*/
+foreach ($events as $event) {
+    $serial = serialize($event);
+
 }
                     /*foreach($obj['Events'] as $Events){
                         if($prevdate != date_format(date_create($Events['Date']), 'D F d, Y')){

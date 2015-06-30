@@ -1,5 +1,8 @@
 <?php namespace App\Http\Controllers;
 
+use App\Event;
+use App\Zip;
+
 class WelcomeController extends Controller {
 
 	/*
@@ -33,9 +36,36 @@ class WelcomeController extends Controller {
 		return view('welcome');
 	}
     
-    public function app()
+    public function getEvents()
 	{
-		return view('app');
+        include "../jamBaseBot.php";
+        
+        $file = fopen("../us_postal_codes.csv","r");
+        $i=0;
+        while(!feof($file)){
+            if($i!=0){
+                print_r(fgetcsv($file));
+            }
+            $i++;
+        }
+        fclose($file);
+       
+        /*if(count(Zip::where( 'zipCode', '=', $zip )->get()) == 0){
+            Zip::create(['zipCode' => $zip]);
+        }*/
+        
+        /*$events =  getEvents( $zip );
+        
+        
+        foreach ($events as $event) {
+            $serial = serialize($event);
+            if(count(Event::where( 'event', '=', $serial )->get()) == 0){
+                Event::create(['event' => $serial, 'zip' => $zip]);
+            } 
+
+        }*/
+        
+		return 'got your events sir';
 	}
 
 }

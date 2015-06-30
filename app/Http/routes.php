@@ -15,6 +15,8 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('app', 'WelcomeController@app');
 
+Route::get('getEs', 'WelcomeController@getEvents');
+
 Route::get('home', 'HomeController@index');
 
 Route::controllers([

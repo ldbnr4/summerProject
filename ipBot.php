@@ -1,7 +1,8 @@
 <?php
+//require_once('../vamos/simpletest/browser.php');
+require_once('../simpletest/browser.php');
+
 function getLocation( $ip ){
-    //require_once('../vamos/simpletest/browser.php');
-    require_once('../simpletest/browser.php');
     $browser = new SimpleBrowser();
     $html = $browser->get('http://www.ipaddresslabs.com/IPGeolocationServiceDemo.do?ipaddress='.$ip.'#StandardEditionTab');
     $dom = new DOMDocument();
@@ -38,5 +39,19 @@ function getLocation( $ip ){
         }
     }
     return $ret;
+}
+function getZip( $ip ){
+    $browser = new SimpleBrowser();
+    $html = $browser->get('http://www.ipaddresslabs.com/IPGeolocationServiceDemo.do?ipaddress='.$ip.'#StandardEditionTab');
+    $dom = new DOMDocument();
+    @$dom->loadHTML( $html ); 
+    $xpath = new DOMXPath($dom);
+    $tableCol = $xpath->query('//td[@*]');
+    foreach ($tableCol as $col){
+        if (strpos($col->nodeValue, 'postal_code')){
+            $val = $col->nextSibling->nextSibling->nextSibling->nextSibling->nextSibling->nextSibling->textContent;
+            return $val;
+        }
+    }
 }
 ?>
