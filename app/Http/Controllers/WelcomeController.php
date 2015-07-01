@@ -34,31 +34,48 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('welcome');
-	}
-    
-    public function getEvents()
-	{
         include "../jamBaseBot.php";
+        include "../ipBot.php";
         
-        set_time_limit ( 3000 );
-        /*$events =  getEvents( '66062' );
-        foreach($events as $event){
-            if(count(Event::where( 'event', '=', serialize($event) )->get()) == 0){
-                var_dump($event);
+        function getRealIpAddr(){
+            if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
+            {
+              $ip=$_SERVER['HTTP_CLIENT_IP'];
             }
-        }*/
+            elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
+            {
+              $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+            }
+            else
+            {
+              $ip=$_SERVER['REMOTE_ADDR'];
+            }
+            return $ip;
+        }
         
-        Zip::chunk(500, function($zips){
-            foreach($zips as $zip){
-                $events = getEvents($zip['zipCode']);
-                foreach( $events as $event ){
+        //$location = getLocation(getRealIpAddr());
+        $location = getLocation('204.77.163.50');
+        $city = trim($location[2]);
+        $state = trim($location[0]);
+        $zip = trim($location[3]);
+        $stateFull = trim($location[1]);
+        
+        $zcheck = Zip::where( 'zipCode', '=', $zip)->get();
+        $echeck = Event::where( 'zip', '=', $zip )->get();
+        
+        if(count($zcheck) == 0){
+            Zip::create(['zipCode' => trim($zip)]);
+        }
+        
+        if(count($echeck) == 0){
+            $events = getEvents($zip);
+            foreach( $events as $event ){
                     $location = explode(',', $event[3]);
                     $city = trim($location[0]);
                     $state = trim($location[1]);
                     if(count(Event::where( 'event', '=', serialize($event) )->get()) == 0){
                         $newE = Event::create(['event' => trim(serialize($event)), 
-                                               'zip' => trim($zip['zipCode']),
+                                               'zip' => trim($zip),
                                                'date' => trim($event[0]),
                                                'venue' => trim($event[2]),
                                                'city' => $city,
@@ -71,38 +88,14 @@ class WelcomeController extends Controller {
                         }
                     }
                     
-                }    
-            }
-        });
-        
-        /*$events =  getEvents( $zip );
-        
-        foreach ($events as $event) {
-            $serial = serialize($event);
-            if(count(Event::where( 'event', '=', $serial )->get()) == 0){
-                Event::create(['event' => $serial, 'zip' => $zip]);
-            } 
-
-        }*/
-        
-		return 'got your events sir';
-	}
-	public function getZips()
-	{
-        set_time_limit ( 100000 );
-        
-        $file = fopen("../us_postal_codes.csv","r");
-        $i=0;
-        while(!feof($file)){  
-            $line = (fgetcsv($file));
-            if( strlen($line[0]) == 5){
-                if(count(Zip::where( 'zipCode', '=', $line[0] )->get()) == 0){
-                    Zip::create(['zipCode' => trim($line[0])]);
                 }
-            }
-        }
-        fclose($file);
-		return 'got zips';
+            $e = Event::where( 'event', '=', serialize($event) )->get();
+        }else{
+            $e = $echeck;
+        }        
+        return view('welcome', compact('e', 'city', 'stateFull'));
+        
+        
 	}
 
 }
