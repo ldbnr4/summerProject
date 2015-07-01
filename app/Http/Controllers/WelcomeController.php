@@ -2,6 +2,7 @@
 
 use App\Event;
 use App\Zip;
+use App\Artist;
 
 class WelcomeController extends Controller {
 
@@ -40,22 +41,41 @@ class WelcomeController extends Controller {
 	{
         include "../jamBaseBot.php";
         
-        $file = fopen("../us_postal_codes.csv","r");
-        $i=0;
-        while(!feof($file)){
-            if($i!=0){
-                print_r(fgetcsv($file));
+        set_time_limit ( 3000 );
+        /*$events =  getEvents( '66062' );
+        foreach($events as $event){
+            if(count(Event::where( 'event', '=', serialize($event) )->get()) == 0){
+                var_dump($event);
             }
-            $i++;
-        }
-        fclose($file);
-       
-        /*if(count(Zip::where( 'zipCode', '=', $zip )->get()) == 0){
-            Zip::create(['zipCode' => $zip]);
         }*/
         
-        /*$events =  getEvents( $zip );
+        Zip::chunk(500, function($zips){
+            foreach($zips as $zip){
+                $events = getEvents($zip['zipCode']);
+                foreach( $events as $event ){
+                    $location = explode(',', $event[3]);
+                    $city = trim($location[0]);
+                    $state = trim($location[1]);
+                    if(count(Event::where( 'event', '=', serialize($event) )->get()) == 0){
+                        $newE = Event::create(['event' => trim(serialize($event)), 
+                                               'zip' => trim($zip['zipCode']),
+                                               'date' => trim($event[0]),
+                                               'venue' => trim($event[2]),
+                                               'city' => $city,
+                                               'state' => $state
+                                              ]);
+                        foreach($event[1] as $artist){
+                            if(count(Artist::where( 'name', '=', $artist )->get()) == 0){
+                                Artist::create(['name' => trim($artist), 'event_id' => $newE['id']]);
+                            }
+                        }
+                    }
+                    
+                }    
+            }
+        });
         
+        /*$events =  getEvents( $zip );
         
         foreach ($events as $event) {
             $serial = serialize($event);
@@ -66,6 +86,23 @@ class WelcomeController extends Controller {
         }*/
         
 		return 'got your events sir';
+	}
+	public function getZips()
+	{
+        set_time_limit ( 100000 );
+        
+        $file = fopen("../us_postal_codes.csv","r");
+        $i=0;
+        while(!feof($file)){  
+            $line = (fgetcsv($file));
+            if( strlen($line[0]) == 5){
+                if(count(Zip::where( 'zipCode', '=', $line[0] )->get()) == 0){
+                    Zip::create(['zipCode' => trim($line[0])]);
+                }
+            }
+        }
+        fclose($file);
+		return 'got zips';
 	}
 
 }

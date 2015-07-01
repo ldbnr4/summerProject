@@ -4,7 +4,7 @@ function getEvents( $zip ){
     //require_once('../vamos/simpletest/browser.php');
     $browser = new SimpleBrowser();
     $date = date('m/d/Y');
-    $oneYearOn = date('m/d/Y',strtotime(date("m/d/Y", time()) . " + 365 day"));
+    $oneYearOn = date('m/d/Y',strtotime(date("m/d/Y", time()) . " + 180 day"));
     $html = $browser->get('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&Zip='.$zip.'&radius=50&StartDate='.$date.'&EndDate='.$oneYearOn.'&Rec=False&pagenum=1&pasi=1500');
     $dom = new DOMDocument();
     @$dom->loadHTML( $html ); 
@@ -19,23 +19,14 @@ function getEvents( $zip ){
         if ($col->getAttribute('class') == 'artistCol'){
             $event = array();
             array_push($event, $date);
-            //echo "<hr>";
             $artists = array();
             $childList = $col->childNodes;
             foreach ($childList as $child){
-                //echo ($child->nodeValue);
                 if($child->nodeName == "a"){
-                    //var_dump($childList);
-                    //echo $child->nodeValue;
                     array_push($artists,$child->nodeValue);
-                    //$col->parentNode->removeChild($col);
-                    //var_dump($childList);
                 }
             }
             array_push($event, $artists);
-            //print_r($artists);
-            //
-            //var_dump( $artists );
         }
         else if ($col->getAttribute('class') == 'venueCol'){
             array_push($event, $col->nodeValue);

@@ -17,6 +17,8 @@ Route::get('app', 'WelcomeController@app');
 
 Route::get('getEs', 'WelcomeController@getEvents');
 
+Route::get('getZs', 'WelcomeController@getZips');
+
 Route::get('home', 'HomeController@index');
 
 Route::controllers([
