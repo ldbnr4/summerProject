@@ -34,10 +34,10 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-        include "../vamos/jamBaseBot.php";
-        include "../vamos/ipBot.php";
-        //include "../jamBaseBot.php";
-        //include "../ipBot.php";
+        //include "../vamos/jamBaseBot.php";
+        //include "../vamos/ipBot.php";
+        include "../jamBaseBot.php";
+        include "../ipBot.php";
         
         function getRealIpAddr(){
             if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
@@ -94,7 +94,8 @@ class WelcomeController extends Controller {
             $e = $newE;
         }else{
             $e = $echeck;
-        }        
+        }
+        var_dump(Zip::all());
         return view('welcome', compact('e', 'city', 'stateFull'));
         
         
