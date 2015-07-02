@@ -44,7 +44,6 @@ class UpdateEvents extends Command {
         set_time_limit ( 100000 );
         
         $file = fopen("us_postal_codes.csv","r");
-        $i=0;
         while(!feof($file)){  
             $line = (fgetcsv($file));
             if( strlen($line[0]) == 5){

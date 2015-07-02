@@ -1,6 +1,6 @@
 <?php
 //require_once('../vamos/simpletest/browser.php');
-require_once('../simpletest/browser.php');
+require_once('simpletest/browser.php');
 
 function getLocation( $ip ){
     $browser = new SimpleBrowser();
