@@ -17,14 +17,16 @@
                     $prevdate = '';
                     $prevTime = '';
                     $j=0;
-/*foreach($e as $events){
+foreach($e as $events){
     $event = unserialize($events['event']);
-    if($prevdate != $event[0]){
-        echo '<div class="panel panel-success">';
-        echo "<h4 class='panel-heading'>".date_format(date_create($event[0]), 'D F d, Y')."<br></h4>";
-    }
-    echo '<div class="panel-body">';
-    echo '<div class="col-md-8 text-center">';
+    var_dump($event);
+}
+    //if($prevdate != $event[0]){
+        //echo '<div class="panel panel-success">';
+        //echo "<h4 class='panel-heading'>".date_format(date_create($event[0]), 'D F d, Y')."<br></h4>";
+    //}
+    //echo '<div class="panel-body">';
+    //echo '<div class="col-md-8 text-center">';
     /*$person = urlencode($event[1][0]);
     $pic = file_get_contents("https://api.spotify.com/v1/search?q=".$person."&type=artist");
     $pic = json_decode($pic, true);
