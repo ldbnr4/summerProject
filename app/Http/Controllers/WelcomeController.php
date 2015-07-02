@@ -99,7 +99,7 @@ class WelcomeController extends Controller {
 	}
     public function welcome()
 	{
-        return 'welcome';
+         return view('welcome');
     }
 
 }
