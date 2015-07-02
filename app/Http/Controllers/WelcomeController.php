@@ -98,8 +98,12 @@ class WelcomeController extends Controller {
         
 	}
     public function welcome()
+        
 	{
-         return view('welcome');
+        $e = array();
+        $city = 'Im a city';
+        $stateFull = 'Im a stae';
+         return view('welcome', compact('e', 'city', 'stateFull'));
     }
 
 }

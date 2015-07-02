@@ -17,7 +17,7 @@
                     $prevdate = '';
                     $prevTime = '';
                     $j=0;
-foreach($e as $events){
+/*foreach($e as $events){
     $event = unserialize($events['event']);
     if($prevdate != $event[0]){
         echo '<div class="panel panel-success">';
@@ -42,7 +42,7 @@ foreach($e as $events){
         }
     }*/
     //echo "</div>";
-    echo "Venue: ".$event[2];
+    /*echo "Venue: ".$event[2];
     echo "<br>Artist: ";
     $num = count($event[1]);
     $i = 1;
@@ -63,7 +63,7 @@ foreach($e as $events){
     $j++;
     //if($j==10)
     //    break;
-}
+}*/
                     /*foreach($obj['Events'] as $Events){
                         if($prevdate != date_format(date_create($Events['Date']), 'D F d, Y')){
                             echo '<div class="panel panel-success">';
