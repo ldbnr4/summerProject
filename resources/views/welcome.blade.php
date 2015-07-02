@@ -19,14 +19,12 @@
                     $j=0;
 foreach($e as $events){
     $event = unserialize($events['event']);
-    var_dump($event);
-}
-    //if($prevdate != $event[0]){
-        //echo '<div class="panel panel-success">';
-        //echo "<h4 class='panel-heading'>".date_format(date_create($event[0]), 'D F d, Y')."<br></h4>";
-    //}
-    //echo '<div class="panel-body">';
-    //echo '<div class="col-md-8 text-center">';
+    if($prevdate != $event[0]){
+        echo '<div class="panel panel-success">';
+        echo "<h4 class='panel-heading'>".date_format(date_create($event[0]), 'D F d, Y')."<br></h4>";
+    }
+    echo '<div class="panel-body">';
+    echo '<div class="col-md-8 text-center">';
     /*$person = urlencode($event[1][0]);
     $pic = file_get_contents("https://api.spotify.com/v1/search?q=".$person."&type=artist");
     $pic = json_decode($pic, true);
@@ -43,29 +41,29 @@ foreach($e as $events){
         echo "</div>";
         }
     }*/
-    //echo "</div>";
-    /*echo "Venue: ".$event[2];
+    echo "</div>";
+    echo "Venue: ".$event[2];
     echo "<br>Artist: ";
     $num = count($event[1]);
     $i = 1;
-    foreach($event[1] as $artist){
-        echo $artist;
-        if($i != $num){
-            echo ", ";
-        }
-        $i++;
-    }
+    //foreach($event[1] as $artist){
+        //echo $artist;
+        //if($i != $num){
+          //  echo ", ";
+        //}
+    //    $i++;
+    //}
     echo "</div>";
     echo "</div>";
     echo "<hr>";
-    if( $j+1 == (count($events)) || $events[$j][0] != $events[$j+1][0]){
-        echo "</div>";
-    }
-    $prevdate = $event[0];
-    $j++;
+    //if( $j+1 == (count($events)) || $events[$j][0] != $events[$j+1][0]){
+      //  echo "</div>";
+    //}
+    //$prevdate = $event[0];
+    //$j++;
     //if($j==10)
     //    break;
-}*/
+}
                     /*foreach($obj['Events'] as $Events){
                         if($prevdate != date_format(date_create($Events['Date']), 'D F d, Y')){
                             echo '<div class="panel panel-success">';

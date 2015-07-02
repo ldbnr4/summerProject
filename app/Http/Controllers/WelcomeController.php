@@ -34,8 +34,10 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-        include "../jamBaseBot.php";
-        include "../ipBot.php";
+        include "../vamos/jamBaseBot.php";
+        include "../vamos/ipBot.php";
+        //include "../jamBaseBot.php";
+        //include "../ipBot.php";
         
         function getRealIpAddr(){
             if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
