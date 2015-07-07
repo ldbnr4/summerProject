@@ -56,8 +56,8 @@ class WelcomeController extends Controller {
         }
         
 
-        //$location = getLocation(getRealIpAddr());
-        $location = getLocation('204.77.163.50');
+        $location = getLocation(getRealIpAddr());
+        //$location = getLocation('204.77.163.50');
         var_dump ($location);
         $city = trim($location[2]);
         $state = trim($location[0]);
