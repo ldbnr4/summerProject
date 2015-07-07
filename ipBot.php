@@ -1,12 +1,5 @@
 <?php
-//require_once('../vamos/simpletest/browser.php');
-//echo 'made it to ipbot';
-//require_once('simpletest/browser.php');
-//echo 'made it to outside function';
 function getLocation( $ip ){
-    //$browser = new SimpleBrowser();
-    //$html = $browser->get('http://www.ipaddresslabs.com/IPGeolocationServiceDemo.do?ipaddress='.$ip.'#StandardEditionTab');
-    //echo 'made it inside function';
     $html = file_get_contents('http://www.ipaddresslabs.com/IPGeolocationServiceDemo.do?ipaddress='.$ip.'#StandardEditionTab'); 
     $dom = new DOMDocument();
     @$dom->loadHTML( $html ); 

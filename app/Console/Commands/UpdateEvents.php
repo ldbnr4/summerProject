@@ -73,8 +73,19 @@ class UpdateEvents extends Command {
                                               ]);
                         foreach($event[1] as $artist){
                             if(count(Artist::where( 'name', '=', $artist )->get()) == 0){
-                                Artist::create(['name' => trim($artist), 'event_id' => $newE['id']]);
+                                $person = urlencode(trim($artist));
+                                $pic = file_get_contents("https://api.spotify.com/v1/search?q=".$person."&type=artist");
+                                $pic = json_decode($pic, true);
+                                $pic_url = 'pics/concert.jpg';
+                                if(count($pic['artists']['items']) > 0){
+                                    if(count($pic['artists']['items'][0]['images']) > 0){
+                                        if(count($pic['artists']['items'][0]['images'][0]['url']) > 0){
+                                            $pic_url = '"'.$pic['artists']['items'][0]['images'][0]['url'].'"';
+                                        }
+                                    }
+                                }
                             }
+                             Artist::create(['name' => trim($artist), 'event_id' => $newE['id'], 'pic_url' => $pic_url]);
                         }
                     }
                     

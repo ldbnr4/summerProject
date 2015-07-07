@@ -34,6 +34,8 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
+        set_time_limit ( 100000 );
+        
         include "../jamBaseBot.php";
         include "../ipBot.php";
         
@@ -82,9 +84,20 @@ class WelcomeController extends Controller {
                                                'state' => $state
                                               ]);
                         foreach($event[1] as $artist){
-                            if(count(Artist::where( 'name', '=', $artist )->get()) == 0){
-                                Artist::create(['name' => trim($artist), 'event_id' => $newE['id'], 'pic_url' => 'http://i45.tinypic.com/50rzgg.jpg']);
+                            if(count(Artist::where( 'name', '=', trim($artist) )->get()) == 0){
+                                $person = urlencode(trim($artist));
+                                $pic = file_get_contents("https://api.spotify.com/v1/search?q=".$person."&type=artist");
+                                $pic = json_decode($pic, true);
+                                $pic_url = 'pics/concert.jpg';
+                                if(count($pic['artists']['items']) > 0){
+                                    if(count($pic['artists']['items'][0]['images']) > 0){
+                                        if(count($pic['artists']['items'][0]['images'][0]['url']) > 0){
+                                            $pic_url = '"'.$pic['artists']['items'][0]['images'][0]['url'].'"';
+                                        }
+                                    }
+                                }
                             }
+                            Artist::create(['name' => trim($artist), 'event_id' => $newE['id'], 'pic_url' => $pic_url]);
                         }
                     }
                     
