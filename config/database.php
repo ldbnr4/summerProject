@@ -25,8 +25,7 @@ return [
 	| you may use many connections at once using the Database library.
 	|
 	*/
-
-	'default' => env('DB_DRIVER', 'psql'),
+	'default' => env('DB_DRIVER', 'psql')
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,14 +53,13 @@ return [
 			'database' => storage_path().'/database.sqlite3',
 			'prefix'   => '',
 		],
-
 		'mysql' => [
 			'driver'    => 'mysql',
 			'host'      => env('DB_HOST', env('OPENSHIFT_MYSQL_DB_HOST', 'localhost')),
 			'port'      => env('DB_PORT', env('OPENSHIFT_MYSQL_DB_PORT', 3306)),
-			'database'  => env('DB_DATABASE', env('OPENSHIFT_APP_NAME', 'forge')),
-			'username'  => env('DB_USERNAME', env('OPENSHIFT_MYSQL_DB_USERNAME', 'forge')),
-			'password'  => env('DB_PASSWORD', env('OPENSHIFT_MYSQL_DB_PASSWORD', '')),
+			'database'  => env('DB_DATABASE', env('OPENSHIFT_APP_NAME', 'event')),
+			'username'  => env('DB_USERNAME', env('OPENSHIFT_MYSQL_DB_USERNAME', 'renzo')),
+			'password'  => env('DB_PASSWORD', env('OPENSHIFT_MYSQL_DB_PASSWORD', 'password')),
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

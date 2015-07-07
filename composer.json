@@ -37,5 +37,8 @@
 	},
 	"config": {
 		"preferred-install": "dist"
-	}
+	},
+    "require": {
+        "ip2location/ip2location-php": "7.*"
+  }
 }
