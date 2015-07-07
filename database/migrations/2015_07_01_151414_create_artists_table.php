@@ -16,6 +16,7 @@ class CreateArtistsTable extends Migration {
 		{
 			$table->increments('id');
             $table->string('name');
+            $table->string('pic_url');
             $table->integer('event_id')->unsigned();
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
 			$table->timestamps();

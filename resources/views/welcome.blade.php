@@ -14,11 +14,14 @@
             <div class = 'panel-heading text-center'><h3><b>Concerts</b></h3></div> 
             <div class='panel-body'>
                 <?php
+use App\Artist;
+use App\Event;
                     $prevdate = '';
                     $prevTime = '';
                     $j=0;
 foreach($e as $events){
     $event = unserialize($events['event']);
+    $artists = Artist::where('event_id', '=', $events['id'])->get();
     if($prevdate != $event[0]){
         echo '<div class="panel panel-success">';
         echo "<h4 class='panel-heading'>".date_format(date_create($event[0]), 'D F d, Y')."<br></h4>";
@@ -44,15 +47,15 @@ foreach($e as $events){
     echo "</div>";
     echo "Venue: ".$event[2];
     echo "<br>Artist: ";
-    $num = count($event[1]);
+    $num = count($artists);
     $i = 1;
-    //foreach($event[1] as $artist){
-        //echo $artist;
-        //if($i != $num){
-          //  echo ", ";
-        //}
-    //    $i++;
-    //}
+    foreach($artists as $artist){
+        echo $artist['pic_url'];
+        if($i != $num){
+            echo ", ";
+        }
+        $i++;
+    }
     echo "</div>";
     echo "</div>";
     echo "<hr>";
