@@ -24,18 +24,20 @@ foreach($e->where('date', '>=', date('Y-m-d'))->get() as $events){
     $artists = Artist::where('event_id', '=', $events['id'])->get();
     if($prevdate != $event[0]){
             echo "</div>";
-        echo '<div class="panel panel-success">';
+        echo '<div class="panel panel-success" style="margin: 1%; border: 2px solid #E5E500">';
         echo "<h4 class='panel-heading'>".date_format(date_create($event[0]), 'D F d, Y')."<br></h4>";
     }
-    echo '<div class="panel-body">';
-        
+    echo '<div class="panel-body" style = "padding: 0; border:1px solid #E5E500; margin: 1%">';
+    
+    echo '<div class="panel-heading" style ="float:right;background-color: #E5E500"><h4><strong>'.$events['city'].', '.$events['state'].'</strong></h4></div>';
+    
     $firstArt = $artists->first();
-    echo '<div class="col-md-4">';
+    echo '<div class="col-md-4" style = "padding: 5%">';
     echo "<img src = ".$firstArt['pic_url']." alt = 'artist' style = 'max-width:300;max-height:300;padding:5%'>";
     echo "</div>";
     
-    echo '<div class="col-md-8 text-center" style="padding: 5%">';
-    echo "<h2><strong>".$event[2]."</strong></h2>";
+    echo '<div class="col-md-8 text-center">';
+    echo "<h2><strong>".$events['venue']."</strong></h2>";
     echo "<footer><em> PRESENTS: </em></footer><div style='color:#E5E500;height:7px;'>- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div><br>";
     $num = count($artists);
     $i = 1;
@@ -48,7 +50,7 @@ foreach($e->where('date', '>=', date('Y-m-d'))->get() as $events){
     }
     echo "</div>";
     echo "</div>";
-    echo "<hr>";
+    echo "<br>";
     //if( $j+1 == (count($events)) || $events[$j][0] != $events[$j+1][0]){
       //  echo "</div>";
     //}
