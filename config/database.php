@@ -25,7 +25,7 @@ return [
 	| you may use many connections at once using the Database library.
 	|
 	*/
-	'default' => env('DB_DRIVER', 'psql')
+	'default' => env('DB_DRIVER', 'pgsql')
 
 	/*
 	|--------------------------------------------------------------------------
