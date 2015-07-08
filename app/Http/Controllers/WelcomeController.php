@@ -35,7 +35,6 @@ class WelcomeController extends Controller {
 	public function index()
 	{
         set_time_limit ( 100000 );
-        
         include "../jamBaseBot.php";
         include "../ipBot.php";
         
