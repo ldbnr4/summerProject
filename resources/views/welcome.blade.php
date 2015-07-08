@@ -47,10 +47,10 @@
                         echo "</div>";
                         
                         /*Event Info Sart*/
-                        echo '<div class="col-md-8 text-center">';
+                        echo '<div class="col-md-8 text-center" style="">';
                         echo "<h2><strong>".$events['venue']."</strong></h2>";
                         echo "<footer><em> PRESENTS: </em></footer><div style='color:#E5E500;height:7px;'>- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div><br>";
-                        echo "<div>";
+                        echo "<div style = 'padding:3%'>";
                         $num = count($artists);
                         $i = 1;
                         foreach($artists as $artist){
@@ -62,9 +62,9 @@
                         }
                         echo '</div>';
                         /*Extra Icons Box*/
-                        echo "<div style = ''>";
+                        echo "<div style = 'margin:3%'>";
                         if($events['tic_url'] != "NULL"){
-                            echo "<a target='_blank' href = '".$events['tic_url']."'><img src = 'pics/ticket.png' alt = 'ticIcon' style = 'max-width:100;max-height:100;padding:5%'><p>Get Tickets!</p> </a>";
+                            echo "<a target='_blank' href = '".$events['tic_url']."'><button class='btn btn-primary'><img src = 'pics/ticket.png' alt = 'ticIcon' style = 'max-width:45;max-height:45;padding:1%;margin-top:5%'><h4>Get Tickets!</h4> </button></a>";
                         }
                         echo "</div>";
                         /* Event Info End */
