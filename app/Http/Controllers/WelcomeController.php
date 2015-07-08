@@ -54,19 +54,20 @@ class WelcomeController extends Controller {
             return $ip;
         }
         
-        $location = getLocation(getRealIpAddr());
-        //$location = getLocation('204.77.163.50');
+        //$location = getLocation(getRealIpAddr());
+        $location = getLocation('204.77.163.50');
         $city = trim($location[2]);
         $state = trim($location[0]);
         $zip = trim($location[3]);
         $stateFull = trim($location[1]);
         
         $zcheck = Zip::where( 'zipCode', '=', $zip)->get();
-        $echeck = Event::where( 'zip', '=', $zip )->get();
         
         if(count($zcheck) == 0){
             Zip::create(['zipCode' => trim($zip)]);
         }
+        
+        $echeck = Event::where( 'zip', '=', $zip );
         
         if(count($echeck) == 0){
             $events = getEvents($zip);
