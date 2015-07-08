@@ -34,7 +34,8 @@
                         }
                         
                         /* Event Body Start */
-                        echo '<div class="panel-body" style = "padding: 0; border:1px solid #E5E500; margin: 1%">';
+                        echo '<div class="panel-body" style = "padding: 0; border:1px solid #E5E500; margin: 1%;position: relative">';
+                        
                         
                        /* Event Location Box */
                         echo '<div class="panel-heading" style ="float:right;background-color: #E5E500"><h4><strong>'.$events['city'].', '.$events['state'].'</strong></h4></div>';
@@ -49,6 +50,7 @@
                         echo '<div class="col-md-8 text-center">';
                         echo "<h2><strong>".$events['venue']."</strong></h2>";
                         echo "<footer><em> PRESENTS: </em></footer><div style='color:#E5E500;height:7px;'>- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div><br>";
+                        echo "<div>";
                         $num = count($artists);
                         $i = 1;
                         foreach($artists as $artist){
@@ -58,13 +60,13 @@
                             }
                             $i++;
                         }
+                        echo '</div>';
                         /*Extra Icons Box*/
-                        echo "<div>";
+                        echo "<div style = ''>";
                         if($events['tic_url'] != "NULL"){
-                            echo "<a href = '".$events['tic_url']."'> <img src = 'pics/ticket.png' alt = 'ticIcon' style = 'max-width:300;max-height:300;padding:5%'> </a>";
+                            echo "<a target='_blank' href = '".$events['tic_url']."'><img src = 'pics/ticket.png' alt = 'ticIcon' style = 'max-width:100;max-height:100;padding:5%'><p>Get Tickets!</p> </a>";
                         }
                         echo "</div>";
-                        
                         /* Event Info End */
                         echo "</div>";
                         

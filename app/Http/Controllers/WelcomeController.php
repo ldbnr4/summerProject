@@ -54,8 +54,8 @@ class WelcomeController extends Controller {
             return $ip;
         }
         
-        //$location = getLocation(getRealIpAddr());
-        $location = getLocation('204.77.163.50');
+        $location = getLocation(getRealIpAddr());
+        //$location = getLocation('204.77.163.50');
         $city = trim($location[2]);
         $state = trim($location[0]);
         $zip = trim($location[3]);
@@ -89,12 +89,12 @@ class WelcomeController extends Controller {
                             if(count(Artist::where( 'name', '=', trim($artist) )->get()) == 0){
                                 $person = urlencode(trim($artist));
                                 $pic = file_get_contents("https://api.spotify.com/v1/search?q=".$person."&type=artist");
-                                $pic = json_decode($pic, true);
+                                $pic2 = json_decode($pic, true);
                                 $pic_url = 'pics/concert.jpg';
-                                if(count($pic['artists']['items']) > 0){
-                                    if(count($pic['artists']['items'][0]['images']) > 0){
-                                        if(count($pic['artists']['items'][0]['images'][0]['url']) > 0){
-                                            $pic_url = '"'.$pic['artists']['items'][0]['images'][0]['url'].'"';
+                                if(count($pic2['artists']['items']) > 0){
+                                    if(count($pic2['artists']['items'][0]['images']) > 0){
+                                        if(count($pic2['artists']['items'][0]['images'][0]['url']) > 0){
+                                            $pic_url = '"'.$pic2['artists']['items'][0]['images'][0]['url'].'"';
                                         }
                                     }
                                 }
