@@ -54,8 +54,8 @@ class WelcomeController extends Controller {
             return $ip;
         }
         
-        $location = getLocation(getRealIpAddr());
-        //$location = getLocation('204.77.163.50');
+        //$location = getLocation(getRealIpAddr());
+        $location = getLocation('204.77.163.50');
         $city = trim($location[2]);
         $state = trim($location[0]);
         $zip = trim($location[3]);
@@ -75,13 +75,15 @@ class WelcomeController extends Controller {
                     $location = explode(',', $event[3]);
                     $city2 = trim($location[0]);
                     $state = trim($location[1]);
+                    $tic_url = $event[4];
                     if(count(Event::where( 'event', '=', serialize($event) )->get()) == 0){
                         $newE = Event::create(['event' => trim(serialize($event)), 
                                                'zip' => trim($zip),
                                                'date' => trim($event[0]),
                                                'venue' => trim($event[2]),
                                                'city' => $city2,
-                                               'state' => $state
+                                               'state' => $state,
+                                               'tic_url' => $tic_url
                                               ]);
                         foreach($event[1] as $artist){
                             if(count(Artist::where( 'name', '=', trim($artist) )->get()) == 0){

@@ -63,13 +63,15 @@ class UpdateEvents extends Command {
                     $location = explode(',', $event[3]);
                     $city = trim($location[0]);
                     $state = trim($location[1]);
+                    $tic_url = $event[4];
                     if(count(Event::where( 'event', '=', serialize($event) )->get()) == 0){
                         $newE = Event::create(['event' => trim(serialize($event)), 
                                                'zip' => trim($zip['zipCode']),
                                                'date' => trim($event[0]),
                                                'venue' => trim($event[2]),
                                                'city' => $city,
-                                               'state' => $state
+                                               'state' => $state,
+                                               'tic_url' => $tic_url
                                               ]);
                         foreach($event[1] as $artist){
                             if(count(Artist::where( 'name', '=', $artist )->get()) == 0){
@@ -87,8 +89,7 @@ class UpdateEvents extends Command {
                             }
                              Artist::create(['name' => trim($artist), 'event_id' => $newE['id'], 'pic_url' => $pic_url]);
                         }
-                    }
-                    
+                    }    
                 }    
             }
         });

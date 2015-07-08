@@ -41,6 +41,21 @@ function getEvents( $zip ){
                     array_push($event, $location);
                 }
             }
+        }
+        else if ($col->getAttribute('class') == 'toolCol'){
+            $childList = $col->childNodes;
+            $link = false;
+            foreach ($childList as $child){
+                if($child->nodeName == 'a' && $child->hasAttributes()){
+                    if($child->getAttribute('target') == 'buy'){
+                        $link = true;
+                        array_push($event, $child->getAttribute('href'));
+                    }
+                }
+            }
+            if($link == false){
+                array_push($event, "NULL");
+            }
             array_push($events, $event);
         }
     }
