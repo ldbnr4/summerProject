@@ -73,14 +73,14 @@ class WelcomeController extends Controller {
             $events = getEvents($zip);
             foreach( $events as $event ){
                     $location = explode(',', $event[3]);
-                    $city = trim($location[0]);
+                    $city2 = trim($location[0]);
                     $state = trim($location[1]);
                     if(count(Event::where( 'event', '=', serialize($event) )->get()) == 0){
                         $newE = Event::create(['event' => trim(serialize($event)), 
                                                'zip' => trim($zip),
                                                'date' => trim($event[0]),
                                                'venue' => trim($event[2]),
-                                               'city' => $city,
+                                               'city' => $city2,
                                                'state' => $state
                                               ]);
                         foreach($event[1] as $artist){
