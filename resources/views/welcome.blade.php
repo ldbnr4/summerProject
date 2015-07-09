@@ -29,8 +29,8 @@
                          ****************************/
                         if($prevdate != $event[0]){
                             echo "</div>";
-                            echo '<div class="panel panel-success" style="margin: 1%; border: 2px solid #E5E500">';
-                            echo "<h4 class='panel-heading'>".date_format(date_create($event[0]), 'D F d, Y')."<br></h4>";
+                            echo '<div class="panel panel-success" style="margin: 1%; border: 2px solid #dff0d8">';
+                            echo "<h3 class='panel-heading text-center'><strong>".date_format(date_create($event[0]), 'l F d, Y')."</strong></h3>";
                         }
                         
                         /* Event Body Start */

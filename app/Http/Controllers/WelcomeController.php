@@ -34,9 +34,10 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-        set_time_limit ( 100000 );
+        set_time_limit ( 1000000 );
         include "../jamBaseBot.php";
         include "../ipBot.php";
+        include "../picBot.php";
         
         function getRealIpAddr(){
             if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
@@ -54,8 +55,8 @@ class WelcomeController extends Controller {
             return $ip;
         }
         
-        $location = getLocation(getRealIpAddr());
-        //$location = getLocation('204.77.163.50');
+        //$location = getLocation(getRealIpAddr());
+        $location = getLocation('204.77.163.50');
         $city = trim($location[2]);
         $state = trim($location[0]);
         $zip = trim($location[3]);
@@ -86,19 +87,7 @@ class WelcomeController extends Controller {
                                                'tic_url' => $tic_url
                                               ]);
                         foreach($event[1] as $artist){
-                            if(count(Artist::where( 'name', '=', trim($artist) )->get()) == 0){
-                                $person = urlencode(trim($artist));
-                                $pic = file_get_contents("https://api.spotify.com/v1/search?q=".$person."&type=artist");
-                                $pic2 = json_decode($pic, true);
-                                $pic_url = 'pics/concert.jpg';
-                                if(count($pic2['artists']['items']) > 0){
-                                    if(count($pic2['artists']['items'][0]['images']) > 0){
-                                        if(count($pic2['artists']['items'][0]['images'][0]['url']) > 0){
-                                            $pic_url = '"'.$pic2['artists']['items'][0]['images'][0]['url'].'"';
-                                        }
-                                    }
-                                }
-                            }
+                            $pic_url = getPic(trim($artist));
                             Artist::create(['name' => trim($artist), 'event_id' => $newE['id'], 'pic_url' => $pic_url]);
                         }
                     }

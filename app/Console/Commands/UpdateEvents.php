@@ -41,7 +41,7 @@ class UpdateEvents extends Command {
 	 */
 	public function fire()
 	{
-        set_time_limit ( 100000 );
+        set_time_limit ( 1000000 );
         
         $file = fopen("us_postal_codes.csv","r");
         while(!feof($file)){  
@@ -55,6 +55,7 @@ class UpdateEvents extends Command {
         fclose($file);
         
         include "jamBaseBot.php";
+        include "picBot.php";
         
         Zip::chunk(500, function($zips){
             foreach($zips as $zip){
@@ -74,20 +75,8 @@ class UpdateEvents extends Command {
                                                'tic_url' => $tic_url
                                               ]);
                         foreach($event[1] as $artist){
-                            $pic_url = 'pics/concert.jpg';
-                            if(count(Artist::where( 'name', '=', $artist )->get()) == 0){
-                                $person = urlencode(trim($artist));
-                                $pic = file_get_contents("https://api.spotify.com/v1/search?q=".$person."&type=artist");
-                                $pic = json_decode($pic, true);
-                                if(count($pic['artists']['items']) > 0){
-                                    if(count($pic['artists']['items'][0]['images']) > 0){
-                                        if(count($pic['artists']['items'][0]['images'][0]['url']) > 0){
-                                            $pic_url = '"'.$pic['artists']['items'][0]['images'][0]['url'].'"';
-                                        }
-                                    }
-                                }
-                            }
-                             Artist::create(['name' => trim($artist), 'event_id' => $newE['id'], 'pic_url' => $pic_url]);
+                            $pic_url = getPic(trim($artist));
+                            Artist::create(['name' => trim($artist), 'event_id' => $newE['id'], 'pic_url' => $pic_url]);
                         }
                     }    
                 }    
