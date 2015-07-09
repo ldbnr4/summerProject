@@ -74,11 +74,11 @@ class UpdateEvents extends Command {
                                                'tic_url' => $tic_url
                                               ]);
                         foreach($event[1] as $artist){
+                            $pic_url = 'pics/concert.jpg';
                             if(count(Artist::where( 'name', '=', $artist )->get()) == 0){
                                 $person = urlencode(trim($artist));
                                 $pic = file_get_contents("https://api.spotify.com/v1/search?q=".$person."&type=artist");
                                 $pic = json_decode($pic, true);
-                                $pic_url = 'pics/concert.jpg';
                                 if(count($pic['artists']['items']) > 0){
                                     if(count($pic['artists']['items'][0]['images']) > 0){
                                         if(count($pic['artists']['items'][0]['images'][0]['url']) > 0){

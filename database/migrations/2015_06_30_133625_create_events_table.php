@@ -21,7 +21,7 @@ class CreateEventsTable extends Migration {
             $table->string('venue');
             $table->string('city');
             $table->string('state');
-            $table->string('tic_url');
+            $table->text('tic_url');
 			$table->timestamps();
 		});
 	}
