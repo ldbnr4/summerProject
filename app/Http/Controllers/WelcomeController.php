@@ -35,9 +35,7 @@ class WelcomeController extends Controller {
 	public function index()
 	{
         set_time_limit ( 1000000 );
-        include "../jamBaseBot.php";
         include "../ipBot.php";
-        include "../picBot.php";
         
         function getRealIpAddr(){
             if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
@@ -55,8 +53,8 @@ class WelcomeController extends Controller {
             return $ip;
         }
         
-        $location = getLocation(getRealIpAddr());
-        //$location = getLocation('204.77.163.50');
+        //$location = getLocation(getRealIpAddr());
+        $location = getLocation('204.77.163.50');
         $city = trim($location[2]);
         $state = trim($location[0]);
         $zip = trim($location[3]);
@@ -71,7 +69,8 @@ class WelcomeController extends Controller {
         $echeck = Event::where( 'zip', '=', $zip );
         
         if(($echeck->count()) == 0){
-            $events = getEvents($zip);
+            $events = shell_exec('$ python -c "import pyJamBaseBot; pyJamBaseBot.getEvents('.trim($zip).'); "');
+            echo $events;
             foreach( $events as $event ){
                     $location = explode(',', $event[3]);
                     $city2 = trim($location[0]);
@@ -87,7 +86,7 @@ class WelcomeController extends Controller {
                                                'tic_url' => $tic_url
                                               ]);
                         foreach($event[1] as $artist){
-                            $pic_url = getPic(trim($artist));
+                            $pic_url =shell_exec('$ python -c "import pipi; pipi.getPic('.trim($artist).'); "');
                             Artist::create(['name' => trim($artist), 'event_id' => $newE['id'], 'pic_url' => $pic_url]);
                         }
                     }
