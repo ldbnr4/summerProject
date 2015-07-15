@@ -16,7 +16,6 @@ class CreateEventsTable extends Migration {
 		{
 			$table->increments('id');
             $table->text('event');
-            $table->string('zip');
             $table->date('date');
             $table->string('venue');
             $table->string('city');

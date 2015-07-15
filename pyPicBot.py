@@ -8,6 +8,6 @@ def getPic( name ):
     tree = html.fromstring(page.text)
     rows = tree.xpath('//img[@itemprop="image"]/@src')
     if len(rows) is 0:
-        return 'pics/concert.jpg'
+        print 'pics/concert.jpg'
     for row in rows:
-        return row
+        print row

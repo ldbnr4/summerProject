@@ -43,7 +43,7 @@ class UpdateEvents extends Command {
 	{
         set_time_limit ( 1000000 );
         
-        $file = fopen("us_postal_codes.csv","r");
+        /*$file = fopen("us_postal_codes.csv","r");
         while(!feof($file)){  
             $line = (fgetcsv($file));
             if( strlen($line[0]) == 5){
@@ -52,10 +52,7 @@ class UpdateEvents extends Command {
                 }
             }
         }
-        fclose($file);
-        
-        include "jamBaseBot.php";
-        include "picBot.php";
+        fclose($file);*/
         
         Zip::chunk(500, function($zips){
             foreach($zips as $zip){
@@ -75,8 +72,9 @@ class UpdateEvents extends Command {
                                                'tic_url' => $tic_url
                                               ]);
                         foreach($event[1] as $artist){
-                            $pic_url = getPic(trim($artist));
-                            Artist::create(['name' => trim($artist), 'event_id' => $newE['id'], 'pic_url' => $pic_url]);
+                            $artist = trim($artist);
+                            $pic_url = shell_exec('python -c "import pyPicBot; pyPicBot.getPic(\"'.$artist.'\"); "');
+                            Artist::create(['name' => $artist, 'event_id' => $newE['id'], 'pic_url' => $pic_url]);
                         }
                     }    
                 }    

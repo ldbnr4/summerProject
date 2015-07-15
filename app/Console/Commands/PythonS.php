@@ -7,6 +7,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use App\Event;
 use App\Zip;
 use App\Artist;
+use App\ZipArtist;
+use App\ZipEvent;
+use App\EventArtist;
 
 class PythonS extends Command {
 
@@ -53,9 +56,10 @@ class PythonS extends Command {
             }
         }
         fclose($file);*/
-        Zip::chunk(500, function($zips){
+       /* Zip::chunk(500, function($zips){
             foreach($zips as $zip){
                 $events = getEvents($zip['zipCode']);
+                
                 foreach( $events as $event ){
                     $location = explode(',', $event[3]);
                     $city = trim($location[0]);
@@ -71,13 +75,65 @@ class PythonS extends Command {
                                                'tic_url' => $tic_url
                                               ]);
                         foreach($event[1] as $artist){
-                            $pic_url = shell_exec('$ python -c "import pipi; pipi.getPic('.trim($artist).'); "');
-                            Artist::create(['name' => trim($artist), 'event_id' => $newE['id'], 'pic_url' => $pic_url]);
+                            $artist = trim($artist);
+                            $pic_url = shell_exec('python -c "import pyPicBot; pyPicBot.getPic(\"'.$artist.'\"); "');
+                            Artist::create(['name' => $artist, 'event_id' => $newE['id'], 'pic_url' => $pic_url]);
                         }
                     }    
                 }    
             }
-        });
+        });*/
+        
+        $zip = 64138;
+        
+        $dbZip = Zip::where( 'zipCode', '=', $zip);
+        if(count($dbZip) == 0){
+            $dbZip = Zip::create(['zipCode' => trim($zip)]);
+        }
+        $dbZipId = $dbZip->id;
+        echo 'here';
+        
+        $dbZE = ZipEvent::where( 'zip_id', '=', $dbZipId);
+        if($dbZE->count() == 0){
+            //call pyJameBaseBot
+        }
+        $dbZEs = $dbZE->get();
+        $dates = shell_exec('python pyDates.py');
+        $dates = explode(':', $dates);
+        $today = new DateTime($dates[0]);
+        $later = new DateTime($dates[1]);
+        foreach($dbZEs as $ZE){
+            $qEid = $ZE['event_id'];
+            $eve = Event::find($qEid);
+            $eveDate = new DateTime($eve['date']);
+            
+        }
+        
+        
+        $eString = shell_exec('python -c "import pyJamBaseBot; pyJamBaseBot.getEvents(\"'.$zip.'\"); "');
+        if($eString != 'NULL'){
+            $eArray = explode('|', $eString);
+            $eArray = str_replace('[', '',$eArray);
+            $eArray = str_replace(']', '',$eArray);
+            foreach ($eArray as $eventA){
+                $event = explode(';', $eventA);
+                if( count($event) == 5){
+                    $event = str_replace(', ', '', $event);
+                    $event = str_replace("'", '', $event);
+                    $artist = explode(':', $event[1]);
+                    array_pop($artist);
+                    
+                    
+                    
+                    
+                    if(count($artist) >= 1){
+                        
+                    }
+                    var_dump ($event);
+                    //break;
+                }
+            }
+        }
         
         $this->info("Events are updated");
         
