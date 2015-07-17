@@ -52,7 +52,7 @@ function JB ($zip, $dbZipId){
                             if($newArt->count() == 0){
                                 $pic_url = shell_exec('python -c "import pyPicBot; pyPicBot.getPic(\"'.urlencode($art).'\"); "');
                                 if(is_null($pic_url)){
-                                    $pic_url = 'pics/concert.jpg'
+                                    $pic_url = 'pics/concert.jpg';
                                 }
                                 $newArt = Artist::create([  'name' => $art, 'pic_url' => $pic_url]);
                                 $newArtId = $newArt['id'];
