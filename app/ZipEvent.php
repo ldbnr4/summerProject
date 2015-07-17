@@ -4,6 +4,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ZipEvent extends Model {
 
-	protected $fillable = ['event_id', 'zip_id'];
+	protected $fillable = ['event_id', 'zip_id', 'date'];
 
 }

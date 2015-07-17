@@ -3,8 +3,10 @@ import requests
 import urllib
 
 def getPic( name ):
-    uName = urllib.quote_plus(name)
-    page = requests.get('http://www.last.fm/music/'+uName)
+    page = requests.get('http://www.last.fm/music/'+name)
+    if page.status_code is not 200:
+        print 'pics/concert.jpg'
+        return
     tree = html.fromstring(page.text)
     rows = tree.xpath('//img[@itemprop="image"]/@src')
     if len(rows) is 0:

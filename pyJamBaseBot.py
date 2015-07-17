@@ -12,6 +12,7 @@ def getEvents( zipCode ):
     page = requests.get('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&Zip='+zipCode+'&radius=50&StartDate='+sDate+'&EndDate='+eDate+'&Rec=False&pagenum=1&pasi=1500')
     if page.status_code is not 200:
         print 'NULL'
+        return
     
     tree = html.fromstring(page.text)
     valids = tree.xpath('//span[@id = "ctl00_MainContent_ctlByDay_PagingControlTop_lblTotalShows"]/text()')
@@ -22,13 +23,20 @@ def getEvents( zipCode ):
             date = row.find('td').find('a').text
         for tag in row.findall('td'):
             if tag.get('class') == 'artistCol':
-                events = [None] * 6
+                events = [None] * 7
                 events[0] = '|'
-                events[2]=[]
-                events[1] = date + ';'
+                events[2]= ';'
+                events[1] = ';' + date
+                i=1;
+                length = len(tag.findall('a'))
                 for artist in tag.findall('a'):
-                    events[2].append(artist.text + ':')
-                    #print artist.text
+                    if artist.text:     
+                        if i != length:
+                            events[2] = events[2] + artist.text + ':'
+                        else:
+                            events[2] = events[2] + artist.text
+                        i = i+1
+                    #print events[2]
             elif tag.get('class') == 'venueCol':
                 events[3] = ';' + tag.find('a').text
                 #print tag.find('a').text
@@ -40,7 +48,13 @@ def getEvents( zipCode ):
                         i=i+1
                     elif i is 1:
                          events[5] = ';' + location.text
-                    #return location.text
-                #f.write(str(events))
+            elif tag.get('class') == 'toolCol':
+                link = False
+                for tickets in tag.findall('a'):
+                    if tickets.get('target') == 'buy':
+                        link = True
+                        events[6] = ';'+tickets.get('href')
+                if link is False:
+                    events[6] = '; NULL'
                 allEs = allEs + events
     print allEs

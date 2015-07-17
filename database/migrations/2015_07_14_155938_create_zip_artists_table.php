@@ -17,6 +17,7 @@ class CreateZipArtistsTable extends Migration {
 			$table->increments('id');
             $table->integer('zip_id')->unsigned();
             $table->integer('artist_id')->unsigned();
+            $table->date('date');
             $table->foreign('zip_id')->references('id')->on('zips')->onDelete('cascade');
             $table->foreign('artist_id')->references('id')->on('artists')->onDelete('cascade');
 			$table->timestamps();

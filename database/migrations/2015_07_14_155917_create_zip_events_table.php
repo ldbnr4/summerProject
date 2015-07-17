@@ -17,6 +17,7 @@ class CreateZipEventsTable extends Migration {
 			$table->increments('id');
             $table->integer('event_id')->unsigned();
             $table->integer('zip_id')->unsigned();
+            $table->date('date');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->foreign('zip_id')->references('id')->on('zips')->onDelete('cascade');
 			$table->timestamps();

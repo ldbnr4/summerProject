@@ -73,6 +73,7 @@ class UpdateEvents extends Command {
                                               ]);
                         foreach($event[1] as $artist){
                             $artist = trim($artist);
+                            
                             $pic_url = shell_exec('python -c "import pyPicBot; pyPicBot.getPic(\"'.$artist.'\"); "');
                             Artist::create(['name' => $artist, 'event_id' => $newE['id'], 'pic_url' => $pic_url]);
                         }

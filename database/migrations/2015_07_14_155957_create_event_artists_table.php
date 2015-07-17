@@ -17,6 +17,7 @@ class CreateEventArtistsTable extends Migration {
 			$table->increments('id');
             $table->integer('event_id')->unsigned();
             $table->integer('artist_id')->unsigned();
+            $table->date('date');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->foreign('artist_id')->references('id')->on('artists')->onDelete('cascade');
 			$table->timestamps();
