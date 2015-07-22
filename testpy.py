@@ -9,5 +9,5 @@ i=float(0)
    # tend = float(time.mktime(datetime.now().timetuple()))
     #i=i+(tend-tstart)
     
-print pyJamBaseBot.getEvents("06479")
+print pyJamBaseBot.getEvents("64138")
 #print i/float(100)
