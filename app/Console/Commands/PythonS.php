@@ -21,6 +21,7 @@ function JB ($zip, $dbZipId){
             $event = explode(';', $eventA);
             unset($event[0]);
             $event = str_replace("', '", '', $event);
+            $event[1] = str_replace("', u'", '', $event[1]);
             $event[6] = str_replace(" ", '', $event[6]);
             $event[6] = str_replace("'", '', $event[6]);
             $event[3] = str_replace("', \"", '', $event[3]);

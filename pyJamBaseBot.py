@@ -1,6 +1,6 @@
 from lxml import html
 import requests
-import urllib
+import urllib2
 import datetime
 from dateutil.relativedelta import relativedelta
 
