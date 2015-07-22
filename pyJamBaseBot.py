@@ -1,4 +1,5 @@
-from lxml import html
+#from lxml import html
+import html
 import requests
 import urllib2
 import datetime
