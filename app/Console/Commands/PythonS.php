@@ -9,6 +9,7 @@ use App\Artist;
 use App\ZipArtist;
 use App\ZipEvent;
 use App\EventArtist;
+use DB;
 
 function JB ($zip, $dbZipId){
     $eString = shell_exec('python -c "import pyJamBaseBot; pyJamBaseBot.getEvents(\"'.$zip.'\"); "');
