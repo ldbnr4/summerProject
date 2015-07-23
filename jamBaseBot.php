@@ -1,8 +1,8 @@
 <?php
 function getEvents( $zip ){
     $date = date('m/d/Y');
-    $oneYearOn = date('m/d/Y',strtotime(date("m/d/Y", time()) . " + 200 day"));
-    $html = file_get_contents('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&Zip='.$zip.'&radius=50&StartDate='.$date.'&EndDate='.$oneYearOn.'&Rec=False&pagenum=1&pasi=1500');
+    $3months = date('m/d/Y',strtotime(date("m/d/Y", time()) . " + 120 day"));
+    $html = file_get_contents('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&Zip='.$zip.'&radius=50&StartDate='.$date.'&EndDate='.$3months.'&Rec=False&pagenum=1&pasi=1500');
     $dom = new DOMDocument();
     @$dom->loadHTML( $html ); 
     $xpath = new DOMXPath($dom);
