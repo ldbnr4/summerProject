@@ -156,7 +156,7 @@ class PythonS extends Command {
         Zip::chunk(500, function($zips){
             foreach($zips as $zip){
                 $dbZipId = $zip['id'];
-                $ZEcheck = DB::table('zip_events')->select('date')->where('zip_id' = $dbZipId)->orderBy('date', 'desc')->first();
+                $ZEcheck = DB::table('zip_events')->select('date')->where('zip_id', '=', $dbZipId)->orderBy('date', 'desc')->first();
                 
                 JB($zip['zipCode'], $dbZipId);
             }
