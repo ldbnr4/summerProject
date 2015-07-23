@@ -1,4 +1,4 @@
-import os
+import subprocess
 subprocess.call('source activate')
 from lxml import html
 import requests
