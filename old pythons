@@ -33,7 +33,7 @@ function JB ($zip, $dbZipId){
                                            'state' => $state,
                                            'tic_url' => $tic_url
                 ]);
-                $ZEcheck = ZipEvent::where('event_id','=', $newE['id'])->where('zip_id', '=', $dbZipId)->where('date', '=', trim($event[1]))->count();
+                $ZEcheck = ZipEvent::where('event_id','=', $newE['id'])->where('zip_id', '=', $dbZipId)->where('date', '=', $date)->count();
                 if($ZEcheck == 0){
                     ZipEvent::create(['event_id' => $newE['id'], 'zip_id' => $dbZipId, 'date' => $date]);
                 }

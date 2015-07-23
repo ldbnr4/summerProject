@@ -30,21 +30,27 @@ function JB ($zip, $dbZipId){
             $event[4] = str_replace("\", '", '', $event[4]);
             $event[2] = str_replace("', \"", '', $event[2]);
             $event[2] = str_replace("\", '", '', $event[2]);
+            $e = trim(serialize($event));
+            $date = trim($event[1]);
+            $ven = trim($event[3]);
+            $city = trim($event[4]);
+            $state = trim($event[5]);
+            $tic_url = trim($event[6]);
             $event = str_replace("None", '', $event);
             if( count($event) == 6 ){
                 $artist = explode(':', $event[2]);
                 $echeck = Event::where('event', '=', trim(serialize($event)))->count();
                 if ($echeck == 0){
-                    $newE = Event::create([    'event' => trim(serialize($event)), 
-                                               'date' => trim($event[1]),
-                                               'venue' => trim($event[3]),
-                                               'city' => trim($event[4]),
-                                               'state' => trim($event[5]),
-                                               'tic_url' => trim($event[6])
+                    $newE = Event::create([    'event' => $e, 
+                                               'date' => $date,
+                                               'venue' => $ven,
+                                               'city' => $city,
+                                               'state' => $state,
+                                               'tic_url' => $tic_url
                     ]);
-                    $ZEcheck = ZipEvent::where('event_id','=', $newE['id'])->where('zip_id', '=', $dbZipId)->where('date', '=', trim($event[1]))->count();
+                    $ZEcheck = ZipEvent::where('event_id','=', $newE['id'])->where('zip_id', '=', $dbZipId)->where('date', '=', $date)->count();
                     if($ZEcheck == 0){
-                        ZipEvent::create(['event_id' => $newE['id'], 'zip_id' => $dbZipId, 'date' => trim($event[1])]);
+                        ZipEvent::create(['event_id' => $newE['id'], 'zip_id' => $dbZipId, 'date' => $date]);
                     }
                     if(count($artist) >= 1){
                         foreach($artist as $art){
@@ -65,31 +71,30 @@ function JB ($zip, $dbZipId){
                                 $newArtId = $newArt;
 
                             }
-                            $ZAcheck = ZipArtist::where('artist_id', '=', $newArtId)->where('zip_id', '=', $dbZipId)->where('date', '=', trim($event[1]))->count();
+                            $ZAcheck = ZipArtist::where('artist_id', '=', $newArtId)->where('zip_id', '=', $dbZipId)->where('date', '=', $date)->count();
                             if($ZAcheck == 0){
-                                ZipArtist::create(['artist_id' => $newArtId,'zip_id' => $dbZipId, 'date' => trim($event[1])]);
+                                ZipArtist::create(['artist_id' => $newArtId,'zip_id' => $dbZipId, 'date' =>$date]);
                             }
-                            $EAcheck = EventArtist::where('artist_id', '=', $newArtId)->where('event_id', '=', $newE['id'])->where('date', '=', trim($event[1]))->count();
+                            $EAcheck = EventArtist::where('artist_id', '=', $newArtId)->where('event_id', '=', $newE['id'])->where('date', '=', $date)->count();
                             if($EAcheck == 0){
-                                 EventArtist::create(['event_id' => $newE['id'], 'artist_id' => $newArtId, 'date' => trim($event[1])]);
+                                 EventArtist::create(['event_id' => $newE['id'], 'artist_id' => $newArtId, 'date' => $date]);
                             }
                         }
                     }
                 }
                 else{
-                    $newE = Event::where('event', '=', trim(serialize($event)))->get();
+                    $newE = Event::where('event', '=', $e)->get();
                     $newE = $newE->fetch('id');
                     $newE = $newE[0];
                     $newEId = $newE;
                     
-                    $ZEcheck = ZipEvent::where('event_id','=', $newEId)->where('zip_id', '=', $dbZipId)->where('date', '=', trim($event[1]))->count();
+                    $ZEcheck = ZipEvent::where('event_id','=', $newEId)->where('zip_id', '=', $dbZipId)->where('date', '=', $date)->count();
                     if($ZEcheck == 0){
-                        ZipEvent::create(['event_id' => $newEId, 'zip_id' => $dbZipId, 'date' => trim($event[1])]);
+                        ZipEvent::create(['event_id' => $newEId, 'zip_id' => $dbZipId, 'date' => $date]);
                     }
-                    $ars = EventArtist::where('event_id', '=', $newE['id'])->where('date', '=', trim($event[1]));
+                    $ars = EventArtist::where('event_id', '=', $newEId)->where('date', '=', $date);
                     foreach ($ars as $ar){
-                        EventArtist::create(['event_id' => $newE['id'], 'artist_id' => $ar['id'], 'date' => trim($event[1])]);
-                        ZipArtist::create(['artist_id' => $ar['id'],'zip_id' => $dbZipId, 'date' => trim($event[1])]);
+                        ZipArtist::create(['artist_id' => $ar['id'],'zip_id' => $dbZipId, 'date' => $date]);
                     }
                     
                 }
@@ -132,7 +137,8 @@ class PythonS extends Command {
 	public function fire()
 	{
         
-
+        chdir('ENV/bin');
+        shell_exec('source activate');
         set_time_limit ( 1000000 );
         $Zcheck = Zip::all()->count();
         if($Zcheck == 0){
@@ -150,6 +156,8 @@ class PythonS extends Command {
         Zip::chunk(500, function($zips){
             foreach($zips as $zip){
                 $dbZipId = $zip['id'];
+                $ZEcheck = DB::table('zip_events')->select('date')->where('zip_id' = $dbZipId)->orderBy('date', 'desc')->first();
+                
                 JB($zip['zipCode'], $dbZipId);
             }
         });
