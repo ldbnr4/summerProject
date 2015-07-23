@@ -1,3 +1,5 @@
+import os
+subprocess.call('source activate')
 from lxml import html
 import requests
 import urllib2, HTMLParser
