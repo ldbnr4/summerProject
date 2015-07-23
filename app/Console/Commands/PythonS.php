@@ -12,6 +12,7 @@ use App\EventArtist;
 use DB;
 
 function JB ($zip, $dbZipId){
+    echo shell_exec('ls');
     $eString = shell_exec('python -c "import pyJamBaseBot; pyJamBaseBot.getEvents(\"'.$zip.'\"); "');
     if($eString != 'NULL'){
         $eArray = explode('|', $eString);
@@ -58,7 +59,7 @@ function JB ($zip, $dbZipId){
                             $art = trim($art);
                             $newArt = Artist::where( 'name', '=', $art);
                             if($newArt->count() == 0){
-                                $pic_url = shell_exec('python -c "import pyPicBot; pyPicBot.getPic(\"'.urlencode($art).'\"); "');
+                                $pic_url = shell_exec('python -c "import pyPicsiBot; pyPicBot.getPic(\"'.urlencode($art).'\"); "');
                                 if(is_null($pic_url)){
                                     $pic_url = 'pics/concert.jpg';
                                 }
@@ -102,6 +103,7 @@ function JB ($zip, $dbZipId){
             }
         }
     }
+    //shell_exec('deactivate');
 }
 
 class PythonS extends Command {
@@ -137,9 +139,8 @@ class PythonS extends Command {
 	 */
 	public function fire()
 	{
-        
         chdir('ENV/bin');
-        shell_exec('source activate');
+        //shell_exec('source activate');
         set_time_limit ( 1000000 );
         $Zcheck = Zip::all()->count();
         if($Zcheck == 0){

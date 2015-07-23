@@ -17,10 +17,10 @@ def getEvents( zipCode ):
     eDate =  datetime.date.today() + relativedelta(months=3)
     eDate = eDate.strftime("%m/%d/%Y")
     
-    p = MyHTMLParser()
-    p.feed(urllib2.urlopen('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&Zip='+zipCode+'&radius=50&StartDate='+sDate+'&EndDate='+eDate+'&Rec=False&pagenum=1&pasi=1500').read())
+    #p = MyHTMLParser()
+    #p.feed(urllib2.urlopen('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&Zip='+zipCode+'&radius=50&StartDate='+sDate+'&EndDate='+eDate+'&Rec=False&pagenum=1&pasi=1500').read())
     #print myhtml
-    return
+    #return
     
     page = requests.get('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&Zip='+zipCode+'&radius=50&StartDate='+sDate+'&EndDate='+eDate+'&Rec=False&pagenum=1&pasi=1500')
     if page.status_code is not 200:
