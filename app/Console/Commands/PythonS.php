@@ -12,7 +12,9 @@ use App\EventArtist;
 use DB;
 
 function JB ($zip, $dbZipId){
-    $eString = shell_exec('python -c "import pyJamBaseBot; pyJamBaseBot.getEvents(\"'.$zip.'\"); "');
+    //$eString = shell_exec('python -c "import pyJamBaseBot; pyJamBaseBot.getEvents(\"'.$zip.'\"); "');
+    echo shell_exec('mid.sh '.$zip);
+    return;
     if($eString != 'NULL'){
         $eArray = explode('|', $eString);
         $eArray = str_replace('[', '',$eArray);
@@ -138,7 +140,7 @@ class PythonS extends Command {
 	 */
 	public function fire()
 	{
-        chdir('ENV/bin');
+        //chdir('ENV/bin');
         //shell_exec('source activate');
         set_time_limit ( 1000000 );
         $Zcheck = Zip::all()->count();
