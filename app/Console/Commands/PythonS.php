@@ -12,7 +12,6 @@ use App\EventArtist;
 use DB;
 
 function JB ($zip, $dbZipId){
-    echo shell_exec('ls');
     $eString = shell_exec('python -c "import pyJamBaseBot; pyJamBaseBot.getEvents(\"'.$zip.'\"); "');
     if($eString != 'NULL'){
         $eArray = explode('|', $eString);
