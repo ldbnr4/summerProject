@@ -166,8 +166,12 @@ class PythonS extends Command {
                 $years = floor($diff / (365*60*60*24));
                 $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
                 if($months < 3){
+                    echo !(file_exists('ENV'));
                     if(!(file_exists('ENV'))){
                         echo shell_exec('bash ./mid2.sh');
+                    }
+                    if(!(file_exists('ENV/lib/python2.6/site-packages/lxml'))){
+                        echo shell_exec('bash ./pipInstals.sh');
                     }
                     JB($zip['zipCode'], $dbZipId);
                 }
