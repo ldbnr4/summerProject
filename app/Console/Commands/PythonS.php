@@ -15,7 +15,7 @@ use App\EventArtist;
 use DB;
 
 function JB ($zip, $dbZipId){
-    shell_exec('bash ./mid.sh '.$zip);
+    echo shell_exec('bash ./mid.sh '.$zip);
     $eString = file_get_contents ('events.txt');
     if($eString != 'NULL'){
         $eArray = explode('|', $eString);
@@ -61,7 +61,7 @@ function JB ($zip, $dbZipId){
                             $art = trim($art);
                             $newArt = Artist::where( 'name', '=', $art);
                             if($newArt->count() == 0){
-                                shell_exec('bash ./mid.sh '.urlencode($art));
+                                echo shell_exec('bash ./mid.sh '.urlencode($art));
                                 $pic_url = file_get_contents('pic.txt');
                                 if(is_null($pic_url)){
                                     $pic_url = 'pics/concert.jpg';
@@ -167,7 +167,7 @@ class PythonS extends Command {
                 $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
                 if($months < 3){
                     if(!(file_exists('ENV'))){
-                        shell_exec('bash ./mid2.sh');
+                        echo shell_exec('bash ./mid2.sh');
                     }
                     JB($zip['zipCode'], $dbZipId);
                 }
