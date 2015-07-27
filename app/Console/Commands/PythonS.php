@@ -14,8 +14,6 @@ use App\ZipEvent;
 use App\EventArtist;
 use DB;
 
-$count = 0;
-
 function JB ($zip, $dbZipId){
     shell_exec('bash ./mid.sh '.$zip);
     $eString = file_get_contents ('events.txt');
@@ -168,7 +166,7 @@ class PythonS extends Command {
                 $years = floor($diff / (365*60*60*24));
                 $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
                 if($months < 3){
-                    if ($count == 0){
+                    if(!(file_exists('ENV'))){
                         shell_exec('bash ./mid2.sh');
                     }
                     JB($zip['zipCode'], $dbZipId);
