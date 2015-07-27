@@ -63,7 +63,8 @@ class WelcomeController extends Controller {
         $zcheck = Zip::where( 'zipCode', '=', $zip)->get();
         
         if(count($zcheck) == 0){
-            Zip::create(['zipCode' => trim($zip)]);
+            Zip::create(['zipCode' => $zip]);
+        
         }
         
         $echeck = Event::where( 'zip', '=', $zip );

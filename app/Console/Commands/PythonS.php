@@ -17,9 +17,8 @@ use DB;
 $count = 0;
 
 function JB ($zip, $dbZipId){
-    //$eString = shell_exec('python -c "import pyJamBaseBot; pyJamBaseBot.getEvents(\"'.$zip.'\"); "');
     shell_exec('bash ./mid.sh '.$zip);
-    $eString = file_get_contents ('ENV/bin/events.txt');
+    $eString = file_get_contents ('events.txt');
     if($eString != 'NULL'){
         $eArray = explode('|', $eString);
         $eArray = str_replace('[', '',$eArray);
@@ -65,7 +64,7 @@ function JB ($zip, $dbZipId){
                             $newArt = Artist::where( 'name', '=', $art);
                             if($newArt->count() == 0){
                                 shell_exec('bash ./mid.sh '.urlencode($art));
-                                $pic_url = file_get_contents('ENV/bin/pic.txt');
+                                $pic_url = file_get_contents('pic.txt');
                                 if(is_null($pic_url)){
                                     $pic_url = 'pics/concert.jpg';
                                 }
