@@ -11,9 +11,9 @@ use App\ZipEvent;
 use App\EventArtist;
 use DB;
 
-function JB ($zip, $dbZipId){
+function JB ($zip, $dbZipId, $count){
     //$eString = shell_exec('python -c "import pyJamBaseBot; pyJamBaseBot.getEvents(\"'.$zip.'\"); "');
-    echo shell_exec('bash ./mid.sh '.$zip);
+    echo shell_exec('bash ./mid.sh '.$zip.' '.$count);
     return;
     if($eString != 'NULL'){
         $eArray = explode('|', $eString);
@@ -156,12 +156,14 @@ class PythonS extends Command {
             }
             fclose($file);   
         }
+        $count = 0;
         Zip::chunk(500, function($zips){
             foreach($zips as $zip){
                 $dbZipId = $zip['id'];
                 $ZEcheck = DB::table('zip_events')->select('date')->where('zip_id', '=', $dbZipId)->orderBy('date', 'desc')->first();
                 
-                JB($zip['zipCode'], $dbZipId);
+                JB($zip['zipCode'], $dbZipId, $count);
+                $count++;
             }
         });
 

@@ -1,16 +1,7 @@
 from lxml import html
 import requests
-import urllib2, HTMLParser
 import datetime
 from dateutil.relativedelta import relativedelta
-
-class MyHTMLParser(HTMLParser.HTMLParser):
-	def handle_starttag(self, tag, attrs):
-		print "Starting tag:", tag, attrs
-	def handle_data(self, data):
-		print "Got data:", data
-	def handle_endtag(self, tag):
-		print "Ending tag:", tag
 
 def getEvents( zipCode ):
     sDate = datetime.date.today().strftime("%m/%d/%Y")
