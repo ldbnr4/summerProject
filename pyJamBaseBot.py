@@ -4,17 +4,15 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 def getEvents( zipCode ):
+    f = open('event.txt', 'w')
     sDate = datetime.date.today().strftime("%m/%d/%Y")
     eDate =  datetime.date.today() + relativedelta(months=3)
     eDate = eDate.strftime("%m/%d/%Y")
-    #p = MyHTMLParser()
-    #p.feed(urllib2.urlopen('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&Zip='+zipCode+'&radius=50&StartDate='+sDate+'&EndDate='+eDate+'&Rec=False&pagenum=1&pasi=1500').read())
-    #print myhtml
-    #return
     
     page = requests.get('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&Zip='+zipCode+'&radius=50&StartDate='+sDate+'&EndDate='+eDate+'&Rec=False&pagenum=1&pasi=1500')
     if page.status_code is not 200:
-        print 'NULL'
+        #print 'NULL'
+        f.write('NULL')
         return
     
     tree = html.fromstring(page.text)
@@ -60,5 +58,7 @@ def getEvents( zipCode ):
                 if link is False:
                     events[6] = '; NULL'
                 allEs = allEs + events
-    print allEs
+    #print allEs
+    f.write(str(allEs))
+    f.closed
     return

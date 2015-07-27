@@ -11,10 +11,10 @@ use App\ZipEvent;
 use App\EventArtist;
 use DB;
 
-function JB ($zip, $dbZipId, $count){
+function JB ($zip, $dbZipId){
     //$eString = shell_exec('python -c "import pyJamBaseBot; pyJamBaseBot.getEvents(\"'.$zip.'\"); "');
-    echo shell_exec('bash ./mid.sh '.$zip.' '.$count);
-    return;
+    shell_exec('bash ./mid.sh '.$zip);
+    $eString = file_get_contents ('ENV/bin/events.txt');
     if($eString != 'NULL'){
         $eArray = explode('|', $eString);
         $eArray = str_replace('[', '',$eArray);
@@ -39,7 +39,6 @@ function JB ($zip, $dbZipId, $count){
             $city = trim($event[4]);
             $state = trim($event[5]);
             $tic_url = trim($event[6]);
-            $event = str_replace("None", '', $event);
             if( count($event) == 6 ){
                 $artist = explode(':', $event[2]);
                 $echeck = Event::where('event', '=', trim(serialize($event)))->count();
@@ -60,7 +59,8 @@ function JB ($zip, $dbZipId, $count){
                             $art = trim($art);
                             $newArt = Artist::where( 'name', '=', $art);
                             if($newArt->count() == 0){
-                                $pic_url = shell_exec('python -c "import pyPicsiBot; pyPicBot.getPic(\"'.urlencode($art).'\"); "');
+                                shell_exec('bash ./mid.sh '.urlencode($art).);
+                                $pic_url = file_get_contents('ENV/bin/pic.txt');
                                 if(is_null($pic_url)){
                                     $pic_url = 'pics/concert.jpg';
                                 }
@@ -162,8 +162,17 @@ class PythonS extends Command {
                 $dbZipId = $zip['id'];
                 $ZEcheck = DB::table('zip_events')->select('date')->where('zip_id', '=', $dbZipId)->orderBy('date', 'desc')->first();
                 
-                JB($zip['zipCode'], $dbZipId, $count);
-                $count++;
+                $diff = abs (date('m/d/Y') - strtotime($ZEcheck));
+                
+                $years = floor($diff / (365*60*60*24));
+                $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+                if($months < 3){
+                    if ($count == 0){
+                        shell_exec('bash ./mid2.sh');
+                    }
+                    JB($zip['zipCode'], $dbZipId);
+                    $count++;   
+                }
             }
         });
 
