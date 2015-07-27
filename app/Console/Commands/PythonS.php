@@ -1,7 +1,10 @@
 <?php namespace App\Console\Commands;
+
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 use App\Event;
 use App\Zip;
@@ -10,6 +13,8 @@ use App\ZipArtist;
 use App\ZipEvent;
 use App\EventArtist;
 use DB;
+
+$count = 0;
 
 function JB ($zip, $dbZipId){
     //$eString = shell_exec('python -c "import pyJamBaseBot; pyJamBaseBot.getEvents(\"'.$zip.'\"); "');
@@ -140,8 +145,6 @@ class PythonS extends Command {
 	 */
 	public function fire()
 	{
-        //chdir('ENV/bin');
-        //shell_exec('source activate');
         set_time_limit ( 1000000 );
         $Zcheck = Zip::all()->count();
         if($Zcheck == 0){
@@ -156,7 +159,6 @@ class PythonS extends Command {
             }
             fclose($file);   
         }
-        $count = 0;
         Zip::chunk(500, function($zips){
             foreach($zips as $zip){
                 $dbZipId = $zip['id'];
