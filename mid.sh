@@ -13,5 +13,5 @@ pip install requests
 pip install urllib2
 pip install HTMLParser
 pip install datetime
-pip install dateutil
+pip install python-dateutil
 python -c "import pyJamBaseBot; pyJamBaseBot.getEvents(\"$1\"); "
