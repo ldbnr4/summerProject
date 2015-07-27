@@ -59,7 +59,7 @@ function JB ($zip, $dbZipId){
                             $art = trim($art);
                             $newArt = Artist::where( 'name', '=', $art);
                             if($newArt->count() == 0){
-                                shell_exec('bash ./mid.sh '.urlencode($art).);
+                                shell_exec('bash ./mid.sh '.urlencode($art));
                                 $pic_url = file_get_contents('ENV/bin/pic.txt');
                                 if(is_null($pic_url)){
                                     $pic_url = 'pics/concert.jpg';
