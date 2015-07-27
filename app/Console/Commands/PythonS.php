@@ -170,7 +170,6 @@ class PythonS extends Command {
                         shell_exec('bash ./mid2.sh');
                     }
                     JB($zip['zipCode'], $dbZipId);
-                    $count++;   
                 }
             }
         });
