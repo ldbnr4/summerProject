@@ -13,7 +13,7 @@ use DB;
 
 function JB ($zip, $dbZipId){
     //$eString = shell_exec('python -c "import pyJamBaseBot; pyJamBaseBot.getEvents(\"'.$zip.'\"); "');
-    echo shell_exec('mid.sh '.$zip);
+    echo shell_exec('bash ./mid.sh '.$zip);
     return;
     if($eString != 'NULL'){
         $eArray = explode('|', $eString);
