@@ -12,12 +12,14 @@ class CreateZipsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('zips', function(Blueprint $table)
-		{
-			$table->increments('id');
-            $table->string('zipCode');
-			$table->timestamps();
-		});
+        if (!Schema::hasTable('zips')){
+            Schema::create('zips', function(Blueprint $table)
+            {
+                $table->increments('id');
+                $table->string('zipCode');
+                $table->timestamps();
+            });
+        }
 	}
 
 	/**
@@ -27,7 +29,6 @@ class CreateZipsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('zips');
 	}
 
 }

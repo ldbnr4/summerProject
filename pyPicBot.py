@@ -15,5 +15,5 @@ def getPic( name ):
         f.write('pics/concert.jpg')
     for row in rows:
         #print row
-        f.write('pics/concert.jpg')
+        f.write(row)
         f.closed

@@ -1,10 +1,9 @@
 #!/bin/bash
 
-#if cmp -s "$pyPicBot.py" "$ENV/bin/pyPicBot.py" then
-#     echo 'files are the same'
-#else
-#    echo 'files are different'
-#fi
+cmp -s pyPicBot.py ENV/bin/pyPicBot.py > /dev/null
+if [ $? -eq 1 ]; then
+    cp pyPicBot.py ENV/bin
+fi
 
 cd ENV/bin
 source activate
