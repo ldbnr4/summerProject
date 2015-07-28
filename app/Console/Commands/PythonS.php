@@ -15,7 +15,9 @@ use App\EventArtist;
 use DB;
 
 function JB ($zip, $dbZipId){
-    echo shell_exec('bash ./mid.sh '.$zip);
+    echo shell_exec('bash ./getEsPY.sh '.$zip);
+    echo shell_exec('ls');
+    return;
     $eString = file_get_contents ('events.txt');
     if($eString != 'NULL'){
         $eArray = explode('|', $eString);
@@ -168,12 +170,13 @@ class PythonS extends Command {
                 if($months < 3){
                     echo !(file_exists('ENV'));
                     if(!(file_exists('ENV'))){
-                        echo shell_exec('bash ./mid2.sh');
+                        echo shell_exec('bash ./setUpVE.sh');
                     }
                     if(!(file_exists('ENV/lib/python2.6/site-packages/lxml'))){
                         echo shell_exec('bash ./pipInstals.sh');
                     }
                     JB($zip['zipCode'], $dbZipId);
+                    break;
                 }
             }
         });

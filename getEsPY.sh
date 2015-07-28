@@ -1,4 +1,5 @@
 #!/bin/bash
+
 echo '\nmid a: '
 res=${PWD##*/}
 echo $res
