@@ -4,7 +4,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 def getEvents( zipCode ):
-    f = open('event.txt', 'w')
+    f = open('events.txt', 'w')
     sDate = datetime.date.today().strftime("%m/%d/%Y")
     eDate =  datetime.date.today() + relativedelta(months=3)
     eDate = eDate.strftime("%m/%d/%Y")

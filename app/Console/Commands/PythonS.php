@@ -14,12 +14,12 @@ use App\ZipEvent;
 use App\EventArtist;
 use DB;
 
-function JB ($zip, $dbZipId){
-    echo shell_exec('bash ./getEsPY.sh '.$zip);
-    echo shell_exec('ls');
-    return;
-    $eString = file_get_contents ('events.txt');
-    if($eString != 'NULL'){
+function JB($zip, $dbZipId){
+    echo 'Getting events for '.$zip."\n";
+    shell_exec('bash ./getEsPY.sh '.$zip);
+    echo '~~Got events for '.$zip."\n";
+    $eString = file_get_contents ('ENV/bin/events.txt');
+    if(!is_null($eString) || $eString != 'NULL'){
         $eArray = explode('|', $eString);
         $eArray = str_replace('[', '',$eArray);
         $eArray = str_replace(']', '',$eArray);
@@ -59,12 +59,15 @@ function JB ($zip, $dbZipId){
                         ZipEvent::create(['event_id' => $newE['id'], 'zip_id' => $dbZipId, 'date' => $date]);
                     }
                     if(count($artist) >= 1){
+                        echo 'There are artists for this event';
                         foreach($artist as $art){
                             $art = trim($art);
                             $newArt = Artist::where( 'name', '=', $art);
                             if($newArt->count() == 0){
-                                echo shell_exec('bash ./mid.sh '.urlencode($art));
-                                $pic_url = file_get_contents('pic.txt');
+                                echo "Getting photo of ".$art."\n";
+                                shell_exec('bash ./getPicPY.sh '.urlencode($art));
+                                echo "~~Got photo of ".$art."\n";
+                                $pic_url = file_get_contents('ENV/bin/pic.txt');
                                 if(is_null($pic_url)){
                                     $pic_url = 'pics/concert.jpg';
                                 }
@@ -72,6 +75,7 @@ function JB ($zip, $dbZipId){
                                 $newArtId = $newArt['id'];
                             }
                             else{
+                                echo 'Already have '.$art." in the databse.\n"
                                 $newArt = $newArt->get();
                                 $newArt = $newArt->fetch('id');
                                 $newArt = $newArt[0];
@@ -90,6 +94,7 @@ function JB ($zip, $dbZipId){
                     }
                 }
                 else{
+                    
                     $newE = Event::where('event', '=', $e)->get();
                     $newE = $newE->fetch('id');
                     $newE = $newE[0];
@@ -161,23 +166,32 @@ class PythonS extends Command {
         Zip::chunk(500, function($zips){
             foreach($zips as $zip){
                 $dbZipId = $zip['id'];
-                $ZEcheck = DB::table('zip_events')->select('date')->where('zip_id', '=', $dbZipId)->orderBy('date', 'desc')->first();
+                $ZEcheck = DB::table('zip_events')->where('zip_id', '=', $dbZipId)->orderBy('date', 'desc')->first();
+                //var_dump ($ZEcheck);             
                 
-                $diff = abs (date('m/d/Y') - strtotime($ZEcheck));
+                if(!is_null($ZEcheck)){
+                    $date = get_object_vars($ZEcheck);
+                    $diff = abs (strtotime(date('Y-m-d')) - strtotime($date['date']));
+                    $years = floor($diff / (365*60*60*24));
+                    $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+                }
                 
-                $years = floor($diff / (365*60*60*24));
-                $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
-                if($months < 3){
-                    echo !(file_exists('ENV'));
+                if(is_null($ZEcheck) || $months < 3){
                     if(!(file_exists('ENV'))){
-                        echo shell_exec('bash ./setUpVE.sh');
+                        shell_exec('bash ./setUpVE.sh');
                     }
-                    if(!(file_exists('ENV/lib/python2.6/site-packages/lxml'))){
-                        echo shell_exec('bash ./pipInstals.sh');
+                    if(trim(shell_exec('uname')) == 'Lunux'){
+                        if(!(file_exists('ENV/lib/python2.6/site-packages/lxml'))){
+                            shell_exec('bash ./pipInstals.sh');
+                        }
                     }
                     JB($zip['zipCode'], $dbZipId);
-                    break;
                 }
+                else{
+                    echo "No events needed for ".$zip['zipCode']."\n";
+                }
+
+
             }
         });
 
