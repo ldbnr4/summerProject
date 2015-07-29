@@ -8,8 +8,7 @@ def getEvents( zipCode ):
     sDate = datetime.date.today().strftime("%m/%d/%Y")
     eDate =  datetime.date.today() + relativedelta(months=3)
     eDate = eDate.strftime("%m/%d/%Y")
-    
-    page = requests.get('http://www.jambase.com/shows/Shows.aspx?ArtistID=0&VenueID=0&Zip='+zipCode+'&radius=50&StartDate='+sDate+'&EndDate='+eDate+'&Rec=False&pagenum=1&pasi=1500')
+    page = requests.get('http://www.jambase.com/shows/Shows.aspx?&Zip='+zipCode+'&radius=60&StartDate='+sDate+'&EndDate='+eDate+'&pasi=5000')
     if page.status_code is not 200:
         #print 'NULL'
         f.write('NULL')
