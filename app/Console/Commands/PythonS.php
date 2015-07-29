@@ -102,26 +102,21 @@ function JB($zip, $dbZipId){
                 }
                 else{
                     echo "Event is already in event db. Fetching id.\n";
-                    readline("Command: ");
                     $newE = Event::where('event', '=', $e)->get();
                     $newE = $newE->fetch('id');
                     $newE = $newE[0];
                     $newEId = $newE;
                     echo "Checking to see if event ".$newEId." is in the zip_events db with the zip code ".$zip." on ".$date.".\n";
-                    readline("Command: ");
                     $ZEcheck = ZipEvent::where('event_id','=', $newEId)->where('zip_id', '=', $dbZipId)->where('date', '=', $date)->count();
                     if($ZEcheck == 0){
                         echo "Its not so we'll associate event ".$newEId.". with zip:zip_id => ".$zip.":".$dbZipId.".\n";
-                        readline("Command: ");
                         ZipEvent::create(['event_id' => $newEId, 'zip_id' => $dbZipId, 'date' => $date]);
                     }
                     else{
                         echo "Event ".$newEId.". with zip:zip_id => ".$zip.":".$dbZipId." are already associated.\n";
-                        readline("Command: ");
-                        //break;
+                       //break;
                     }
                     echo "Looking for artists with event id ".$newEId." on ".$date." in event_artists db.\n";
-                    readline("Command: ");
                     $ars = EventArtist::where('event_id', '=', $newEId)->where('date', '=', $date)->get();
                     foreach ($ars as $ar){
                         echo "Adding artist_id ".$ar['artist_id']." from event ".$newEId." with the new zip:zip_id => ".$zip.":".$dbZipId." to zip_artists db.\n";
