@@ -12,16 +12,18 @@ class CreateZipArtistsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('zip_artists', function(Blueprint $table)
-		{
-			$table->increments('id');
-            $table->integer('zip_id')->unsigned();
-            $table->integer('artist_id')->unsigned();
-            $table->date('date');
-            $table->foreign('zip_id')->references('id')->on('zips')->onDelete('cascade');
-            $table->foreign('artist_id')->references('id')->on('artists')->onDelete('cascade');
-			$table->timestamps();
-		});
+        if (!Schema::hasTable('zip_artists')){
+            Schema::create('zip_artists', function(Blueprint $table)
+            {
+                $table->increments('id');
+                $table->integer('zip_id')->unsigned();
+                $table->integer('artist_id')->unsigned();
+                $table->date('date');
+                $table->foreign('zip_id')->references('id')->on('zips')->onDelete('cascade');
+                $table->foreign('artist_id')->references('id')->on('artists')->onDelete('cascade');
+                $table->timestamps();
+            });
+        }
 	}
 
 	/**

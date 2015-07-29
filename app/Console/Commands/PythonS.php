@@ -47,10 +47,10 @@ function JB($zip, $dbZipId){
                         $dbE['event'] = trim(serialize($event))
                     }
                 });*/
-                echo "Checking db for existing event.\n";
-                $echeck = Event::where('event', '=', trim(serialize($event)))->count();
+                echo "Checking EVENT db for event.\n";
+                $echeck = Event::where('event', '=', $e)->count();
                 if ($echeck == 0){
-                    echo "Event not in db. Adding it.\n";
+                    echo "Event not in EVENT db. Adding it.\n";
                     $newE = Event::create([    'event' => $e, 
                                                'date' => $date,
                                                'venue' => $ven,
@@ -61,36 +61,37 @@ function JB($zip, $dbZipId){
 
                     ZipEvent::create(['event_id' => $newE['id'], 'zip_id' => $dbZipId, 'date' => $date]);
                     if(count($artist) >= 1){
-                        echo "There are artists for this event.\n";
+                        echo "There are ".count($artist)." artists for just created event ".$newE['id'].".\n";
                         foreach($artist as $art){
                             $art = trim($art);
+                            echo "Looking for ".$art." in ARTIST db.\n";
                             $newArt = Artist::where( 'name', '=', $art);
                             if($newArt->count() == 0){
-                                echo "Getting photo of ".$art.".\n";
+                                echo "New artist. Getting photo of ".$art.".\n";
                                 shell_exec('bash ./getPicPY.sh '.urlencode($art));
                                 $pic_url = file_get_contents('ENV/bin/pic.txt');
-                                if(is_null($pic_url)){
+                                if(is_null($pic_url) || $pic_url == ''){
                                     $pic_url = 'pics/concert.jpg';
                                 }
                                 $newArt = Artist::create([  'name' => $art, 'pic_url' => $pic_url]);
                                 $newArtId = $newArt['id'];
                             }
                             else{
-                                echo 'Already have '.$art." in the databse.\n";
+                                echo 'Already have '.$art." in the databse. Fetching id.\n";
                                 $newArt = $newArt->get();
                                 $newArt = $newArt->fetch('id');
                                 $newArt = $newArt[0];
                                 $newArtId = $newArt;
 
                             }
-                             echo 'Checking to see if '.$art." has been in ". $zip." already on ".$date.".\n";
+                            echo 'Checking to see if '.$art." has been in ".$zip." already on ".$date.".\n";
                             $ZAcheck = ZipArtist::where('artist_id', '=', $newArtId)->where('zip_id', '=', $dbZipId)->where('date', '=', $date)->count();
                             if($ZAcheck == 0){
-                                echo $art." has not. Adding this.\n";
+                                echo $art." has not been in ".$zip." on ".$date.". Adding this.\n";
                                 ZipArtist::create(['artist_id' => $newArtId,'zip_id' => $dbZipId, 'date' =>$date]);
                             }
                             else{
-                                echo $art." has already.\n";
+                                echo $art." has been in ".$zip." on ".$date.".\n";
                             }
                             EventArtist::create(['event_id' => $newE['id'], 'artist_id' => $newArtId, 'date' => $date]);
                         }
@@ -100,34 +101,39 @@ function JB($zip, $dbZipId){
                     }
                 }
                 else{
-                    echo "Event already in db. Getting it now.\n";
+                    echo "Event is already in event db. Fetching id.\n";
+                    readline("Command: ");
                     $newE = Event::where('event', '=', $e)->get();
                     $newE = $newE->fetch('id');
                     $newE = $newE[0];
                     $newEId = $newE;
-                    echo "Checking to see if this event is in the db with the zip code ".$zip.".\n";
+                    echo "Checking to see if event ".$newEId." is in the zip_events db with the zip code ".$zip." on ".$date.".\n";
+                    readline("Command: ");
                     $ZEcheck = ZipEvent::where('event_id','=', $newEId)->where('zip_id', '=', $dbZipId)->where('date', '=', $date)->count();
                     if($ZEcheck == 0){
-                        echo "Its not so we'll add it.\n";
+                        echo "Its not so we'll associate event ".$newEId.". with zip:zip_id => ".$zip.":".$dbZipId.".\n";
+                        readline("Command: ");
                         ZipEvent::create(['event_id' => $newEId, 'zip_id' => $dbZipId, 'date' => $date]);
                     }
                     else{
-                        echo "It is so dont add it.\n";
+                        echo "Event ".$newEId.". with zip:zip_id => ".$zip.":".$dbZipId." are already associated.\n";
+                        readline("Command: ");
+                        //break;
                     }
-                    echo "Looking for artists with event id ".$newEId." on ".$date.".\n";
+                    echo "Looking for artists with event id ".$newEId." on ".$date." in event_artists db.\n";
+                    readline("Command: ");
                     $ars = EventArtist::where('event_id', '=', $newEId)->where('date', '=', $date)->get();
-                    //var_dump($ars);
                     foreach ($ars as $ar){
-                        echo "Adding ".$ar['id']." to this event with the new zip.\n";
-                        ZipArtist::create(['artist_id' => $ar['id'],'zip_id' => $dbZipId, 'date' => $date]);
+                        echo "Adding artist_id ".$ar['artist_id']." from event ".$newEId." with the new zip:zip_id => ".$zip.":".$dbZipId." to zip_artists db.\n";
+                        readline("Command: ");
+                        ZipArtist::create(['artist_id' => $ar['artist_id'],'zip_id' => $dbZipId, 'date' => $date]);
                     }
-                    
                 }
             }
-            echo "Moving on to next event.\n";
+            echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~Moving on to next event~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
         }
     }
-    echo "Done with ".$zip.".\n";
+    echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~Done with ".$zip."~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 }
 
 class PythonS extends Command {
