@@ -64,6 +64,9 @@ function JB($zip, $dbZipId){
                         echo "There are ".count($artist)." artists for just created event ".$newE['id'].".\n";
                         foreach($artist as $art){
                             $art = trim($art);
+                            if($art == ''){
+                                $art = "Unkown";
+                            }
                             echo "Looking for ".$art." in ARTIST db.\n";
                             $newArt = Artist::where( 'name', '=', $art);
                             if($newArt->count() == 0){
