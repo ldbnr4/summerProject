@@ -122,8 +122,13 @@ function JB($zip, $dbZipId){
                     echo "Looking for artists with event id ".$newEId." on ".$date." in event_artists db.\n";
                     $ars = EventArtist::where('event_id', '=', $newEId)->where('date', '=', $date)->get();
                     foreach ($ars as $ar){
-                        echo "Adding artist_id ".$ar['artist_id']." from event ".$newEId." with the new zip:zip_id => ".$zip.":".$dbZipId." to zip_artists db.\n";
-                        ZipArtist::create(['artist_id' => $ar['artist_id'],'zip_id' => $dbZipId, 'date' => $date]);
+                        if(ZipArtist::where('zip_id', '=', $dbZipId)->where('date', '=', $date)>where('artist_id', '=', $ar['artist_id'])->count() == 0){
+                            echo "Artist ".$ar['artist_id']." has not been associated with the new zip:zip_id => ".$zip.":".$dbZipId." on ".$date.". Adding to zip_artists db.\n";
+                            ZipArtist::create(['artist_id' => $ar['artist_id'],'zip_id' => $dbZipId, 'date' => $date]);
+                        }
+                        else{
+                            echo echo "Artist ".$ar['artist_id']." has already been associated with the new zip:zip_id => ".$zip.":".$dbZipId." on ".$date.".\n";
+                        }
                     }
                 }
             }
