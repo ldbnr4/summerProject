@@ -120,7 +120,6 @@ function JB($zip, $dbZipId){
                     $ars = EventArtist::where('event_id', '=', $newEId)->where('date', '=', $date)->get();
                     foreach ($ars as $ar){
                         echo "Adding artist_id ".$ar['artist_id']." from event ".$newEId." with the new zip:zip_id => ".$zip.":".$dbZipId." to zip_artists db.\n";
-                        readline("Command: ");
                         ZipArtist::create(['artist_id' => $ar['artist_id'],'zip_id' => $dbZipId, 'date' => $date]);
                     }
                 }
