@@ -173,7 +173,7 @@ class PythonS extends Command {
 	{
         set_time_limit ( 1000000 );
         $file = fopen("cities.csv","r");
-        if(DB::table('zips')->count() < 29000){
+        if(DB::table('zips')->count() < 29467){
             while(!feof($file)){  
                 $line = (fgetcsv($file));
                 if(is_numeric(trim($line[0]))){
