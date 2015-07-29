@@ -29,6 +29,7 @@ class CreateZipsTable extends Migration {
 	 */
 	public function down()
 	{
+        Schema::drop('zips');
 	}
 
 }

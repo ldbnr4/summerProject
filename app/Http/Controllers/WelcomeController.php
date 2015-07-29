@@ -57,46 +57,13 @@ class WelcomeController extends Controller {
         $location = getLocation('204.77.163.50');
         $city = trim($location[2]);
         $state = trim($location[0]);
-        $zip = trim($location[3]);
+        //$zip = trim($location[3]);
+        $zip = 00501;
         $stateFull = trim($location[1]);
-        
-        $zcheck = Zip::where( 'zipCode', '=', $zip)->get();
-        
-        if(count($zcheck) == 0){
-            Zip::create(['zipCode' => $zip]);
-            
-        }
         
         $echeck = Event::where( 'zip', '=', $zip );
         
-        if(($echeck->count()) == 0){
-            $events = shell_exec('$ python -c "import pyJamBaseBot; pyJamBaseBot.getEvents('.trim($zip).'); "');
-            echo $events;
-            foreach( $events as $event ){
-                    $location = explode(',', $event[3]);
-                    $city2 = trim($location[0]);
-                    $state = trim($location[1]);
-                    $tic_url = $event[4];
-                    if(count(Event::where( 'event', '=', serialize($event) )->get()) == 0){
-                        $newE = Event::create(['event' => trim(serialize($event)), 
-                                               'zip' => trim($zip),
-                                               'date' => trim($event[0]),
-                                               'venue' => trim($event[2]),
-                                               'city' => $city2,
-                                               'state' => $state,
-                                               'tic_url' => $tic_url
-                                              ]);
-                        foreach($event[1] as $artist){
-                            $pic_url =shell_exec('$ python -c "import pipi; pipi.getPic('.trim($artist).'); "');
-                            Artist::create(['name' => trim($artist), 'event_id' => $newE['id'], 'pic_url' => $pic_url]);
-                        }
-                    }
-                    
-                }
-            $e = $newE;
-        }else{
-            $e = $echeck;
-        }
+        
         return view('welcome', compact('e', 'city', 'stateFull'));
         
         

@@ -43,18 +43,27 @@ class UpdateEvents extends Command {
 	{
         set_time_limit ( 1000000 );
         
-        /*$file = fopen("us_postal_codes.csv","r");
+        $file = fopen("cities.csv","r");
+        $f = fopen("zips.txt","w");
         while(!feof($file)){  
             $line = (fgetcsv($file));
-            if( strlen($line[0]) == 5){
-                if(count(Zip::where( 'zipCode', '=', trim($line[0]) )->get()) == 0){
-                    Zip::create(['zipCode' => trim($line[0])]);
+            if(is_numeric(trim($line[0]))){
+                $zip = trim($line[0]);
+                //if(count(Zip::where( 'zipCode', '=', trim($line[0]) )->get()) == 0){
+                    //Zip::create(['zipCode' => trim($line[0])]);
+                //}
+                while(strlen($zip) != 5){
+                    $zip = strval($zip);
+                    $zip = '0'.$zip;
+                    
                 }
+                echo trim($zip)."   ";
             }
         }
-        fclose($file);*/
+        fclose($file);
+        fclose($f);
         
-        Zip::chunk(500, function($zips){
+        /*Zip::chunk(500, function($zips){
             foreach($zips as $zip){
                 $events = getEvents($zip['zipCode']);
                 foreach( $events as $event ){
@@ -80,7 +89,7 @@ class UpdateEvents extends Command {
                     }    
                 }    
             }
-        });
+        });*/
         
 		$this->info("Events are updated");
 	}

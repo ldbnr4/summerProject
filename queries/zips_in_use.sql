@@ -1,0 +1,1 @@
+﻿SELECT count(DISTINCT (zip_id)) from zip_events
