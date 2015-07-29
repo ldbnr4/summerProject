@@ -1,7 +1,10 @@
 #!/bin/bash
 directory="./Scripts"
-
-virtualenv ENV --system-site-packages
+if [[ "$unamestr" == 'Linux' ]]; then
+   virtualenv ENV
+else
+    virtualenv ENV --system-site-packages
+fi
 cd ENV
 if [ -d $directory ]; then
   mv Scripts bin
@@ -14,10 +17,10 @@ cd ENV/bin
 source activate
 unamestr=`uname`
 if [[ "$unamestr" == 'Linux' ]]; then
-    pip install lxml -I
-    pip install requests -I
-    pip install urllib2 -I
-    pip install HTMLParser -I
-    pip install datetime -I
-    pip install python-dateutil -I
+    pip install lxml
+    pip install requests
+    pip install urllib2
+    pip install HTMLParser
+    pip install datetime
+    pip install python-dateutil
 fi
