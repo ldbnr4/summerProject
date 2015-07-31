@@ -177,13 +177,10 @@ class PythonS extends Command {
 	 */
 	public function fire()
 	{
-        $xx = 0;
         set_time_limit ( 1000000 );
         Zip::chunk(500, function($zips){
     foreach ($zips as $zip){
-        echo $xx."\n";
-        shell_exec("python cleanZips.py ".$zip['zipCode']);
-        $xx++;
+        echo shell_exec("python cleanZips.py ".urlencode(trim($zip['zipCode'])));
     }
 });
         return;
