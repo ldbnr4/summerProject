@@ -10,6 +10,6 @@ i=float(0)
    # tend = float(time.mktime(datetime.now().timetuple()))
     #i=i+(tend-tstart)
     
-#print pyJamBaseBot.getEvents("64138")
-print pyPicBot.getPic("Dads")
+print pyJamBaseBot.getEvents("99578")
+#print pyPicBot.getPic("Dads")
 #print i/float(100)

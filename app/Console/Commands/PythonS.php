@@ -3,9 +3,7 @@
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
-
 use App\Event;
 use App\Zip;
 use App\Artist;
@@ -18,7 +16,7 @@ function JB($zip, $dbZipId){
     echo 'Getting events for '.$zip."\n";
     shell_exec('bash ./getEsPY.sh '.$zip);
     $eString = file_get_contents ('ENV/bin/events.txt');
-    if(!is_null($eString) || $eString != 'NULL'){
+    if(strlen($eString) > 2 && $eString != 'NULL'){
         $eArray = explode('|', $eString);
         $eArray = str_replace('[', '',$eArray);
         $eArray = str_replace(']', '',$eArray);
@@ -106,6 +104,9 @@ function JB($zip, $dbZipId){
                 else{
                     echo "Event is already in event db. Fetching id.\n";
                     $newE = Event::where('event', '=', $e)->get();
+                    $newEDate = Event::where('event', '=', $e)->get();
+                    var_dump($newEDate);
+                    
                     $newE = $newE->fetch('id');
                     $newE = $newE[0];
                     $newEId = $newE;
@@ -134,6 +135,11 @@ function JB($zip, $dbZipId){
             }
             echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~Moving on to next event~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
         }
+    }
+    else{
+        $f = fopen("bad_zips.txt","a");
+        fwrite($f,$zip." ");
+        fclose($f);
     }
     echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~Done with ".$zip."~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 }
@@ -171,7 +177,16 @@ class PythonS extends Command {
 	 */
 	public function fire()
 	{
+        $xx = 0;
         set_time_limit ( 1000000 );
+        Zip::chunk(500, function($zips){
+    foreach ($zips as $zip){
+        echo $xx."\n";
+        shell_exec("python cleanZips.py ".$zip['zipCode']);
+        $xx++;
+    }
+});
+        return;
         $file = fopen("cities.csv","r");
         if(DB::table('zips')->count() < 29467){
             while(!feof($file)){  

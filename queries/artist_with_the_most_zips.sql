@@ -1,1 +1,1 @@
-﻿SELECT count (distinct (zip_id, artist_id)), artist_id FROM zip_artists group by artist_id order by count(distinct (zip_id, artist_id)) desc, artist_id ;
+﻿select count(distinct (artist_id)), artist_id from zip_artists group by artist_id order by count(distinct (artist_id)) DESC;

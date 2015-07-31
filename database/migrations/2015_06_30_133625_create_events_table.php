@@ -12,17 +12,19 @@ class CreateEventsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('events', function(Blueprint $table)
-		{
-			$table->increments('id');
-            $table->text('event');
-            $table->date('date');
-            $table->string('venue');
-            $table->string('city');
-            $table->string('state');
-            $table->text('tic_url');
-			$table->timestamps();
-		});
+        if (!Schema::hasTable('events')){
+            Schema::create('events', function(Blueprint $table)
+            {
+                $table->increments('id');
+                $table->text('event');
+                $table->date('date');
+                $table->string('venue');
+                $table->string('city');
+                $table->string('state');
+                $table->text('tic_url');
+                $table->timestamps();
+            });
+        }
 	}
 
 	/**
