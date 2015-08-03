@@ -1,12 +1,12 @@
 from bs4 import BeautifulSoup
 import sys
-import urllib2
+import requests
 
 f = open('zip_clusters.txt', 'w')
 
 zipC = sys.argv[1]
-r  = urllib2.urlopen('http://www.searchbug.com/tools/zip-radius.aspx?afid=sbug&zipcode='+ zipC +'&radius=60&submit=Search')
-data = r.read()
+r  = requests.get('http://www.searchbug.com/tools/zip-radius.aspx?afid=sbug&zipcode='+ zipC +'&radius=60&submit=Search')
+data = r.text
 
 soup = BeautifulSoup(data, "lxml")
 list_of_a = soup.find_all('a')

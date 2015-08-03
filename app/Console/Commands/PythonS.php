@@ -48,7 +48,7 @@ function JB($zip, $dbZipId){
                 echo "Checking EVENT db for event.\n";
                 $echeck = Event::where('event', '=', $e)->count();
                 if ($echeck == 0){
-                    echo "Event not in EVENT db. Adding it.\n";
+                    /*echo "Event not in EVENT db. Adding it.\n";
                     $newE = Event::create([    'event' => $e, 
                                                'date' => $date,
                                                'venue' => $ven,
@@ -57,7 +57,7 @@ function JB($zip, $dbZipId){
                                                'tic_url' => $tic_url
                     ]);
 
-                    ZipEvent::create(['event_id' => $newE['id'], 'zip_id' => $dbZipId, 'date' => $date]);
+                    ZipEvent::create(['event_id' => $newE['id'], 'zip_id' => $dbZipId, 'date' => $date]);*/
                     if(count($artist) >= 1){
                         echo "There are ".count($artist)." artists for just created event ".$newE['id'].".\n";
                         foreach($artist as $art){
@@ -77,7 +77,7 @@ function JB($zip, $dbZipId){
                                 $newArt = Artist::create([  'name' => $art, 'pic_url' => $pic_url]);
                                 $newArtId = $newArt['id'];
                             }
-                            else{
+                            /*else{
                                 echo 'Already have '.$art." in the databse. Fetching id.\n";
                                 $newArt = $newArt->get();
                                 $newArt = $newArt->fetch('id');
@@ -94,14 +94,14 @@ function JB($zip, $dbZipId){
                             else{
                                 echo $art." has been in ".$zip." on ".$date.".\n";
                             }
-                            EventArtist::create(['event_id' => $newE['id'], 'artist_id' => $newArtId, 'date' => $date]);
+                            EventArtist::create(['event_id' => $newE['id'], 'artist_id' => $newArtId, 'date' => $date]);*/
                         }
                     }
                     else{
                         echo 'There are NO artists for this event.'."\n"; 
                     }
                 }
-                else{
+                /*else{
                     echo "Event is already in event db. Fetching id.\n";
                     $newE = Event::where('event', '=', $e)->get();
                     $newEDate = Event::where('event', '=', $e)->get();
@@ -131,7 +131,7 @@ function JB($zip, $dbZipId){
                             echo "Artist ".$ar['artist_id']." has already been associated with the new zip:zip_id => ".$zip.":".$dbZipId." on ".$date.".\n";
                         }
                     }
-                }
+                }*/
             }
             echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~Moving on to next event~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
         }
@@ -178,14 +178,16 @@ class PythonS extends Command {
 	public function fire()
 	{
         set_time_limit ( 1000000 );
-        Zip::chunk(500, function($zips){
+/*        Zip::chunk(500, function($zips){
     foreach ($zips as $zip){
         echo shell_exec("python cleanZips.py ".urlencode(trim($zip['zipCode'])));
     }
-});
-        return;
-        $file = fopen("cities.csv","r");
-        if(DB::table('zips')->count() < 29467){
+});*/   
+        /*$zips = DB::table('zips')->get();
+        var_dump ($zips[27430]->clusters);
+        return;*/
+        if(count(DB::table('zips')->get()) == 0 ){
+           $file = fopen("cities.csv","r");
             while(!feof($file)){  
                 $line = (fgetcsv($file));
                 if(is_numeric(trim($line[0]))){
@@ -193,14 +195,19 @@ class PythonS extends Command {
                     while(strlen($zip) != 5){
                         $zip = strval($zip);
                         $zip = '0'.$zip;
+
                     }
-                    if(count(Zip::where( 'zipCode', '=', $zip )->get()) == 0){
-                    Zip::create(['zipCode' => $zip]);
+                    $zip = trim($zip);
+                    $noEs = file_get_contents('noEs_zips.txt');
+                    $noEs = explode (" ", $noEs);
+                    array_pop($noEs);
+                    if(!(in_array($zip, $noEs))){
+                        Zip::create(['zipCode' => $zip]);
                     }
                 }
             }
+            fclose($file);
         }
-        fclose($file);
         Zip::chunk(500, function($zips){
             foreach($zips as $zip){
                 $dbZipId = $zip['id'];
