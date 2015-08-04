@@ -1,3 +1,3 @@
 #!/bin/bash
-cd $OPENSHIFT_HOMEDIR
+cd $OPENSHIFT_REPO_DIR
 ls
