@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel {
 		'App\Console\Commands\Inspire',
 		'App\Console\Commands\UpdateEvents',
 		'App\Console\Commands\PythonS',
+		'App\Console\Commands\Test',
 	];
 
 	/**
@@ -25,6 +26,7 @@ class Kernel extends ConsoleKernel {
 	protected function schedule(Schedule $schedule)
 	{
         $schedule->command('Scripts:update')->dailyAt('23:00')->name('update_db')->withoutOverlapping();
+        $schedule->command('test')->cron('* * * * *')->name('test')->withoutOverlapping();
         
 	}
 
