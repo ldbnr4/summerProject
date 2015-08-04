@@ -57,8 +57,8 @@ class WelcomeController extends Controller {
         $location = getLocation('204.77.163.50');
         $city = trim($location[2]);
         $state = trim($location[0]);
-        //$zip = trim($location[3]);
-        $zip = 00501;
+        $zip = trim($location[3]);
+        //$zip = 00501;
         $stateFull = trim($location[1]);
         
         $echeck = Event::where( 'zip', '=', $zip );
