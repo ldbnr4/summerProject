@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel {
 	protected function schedule(Schedule $schedule)
 	{
         $schedule->command('Scripts:update')->dailyAt('23:00')->name('update_db')->withoutOverlapping();
-        $schedule->command('inspire')->cron('* * * * *');
+        $schedule->command('test')->cron('* * * * *');
         
 	}
 
