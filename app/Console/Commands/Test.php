@@ -37,7 +37,7 @@ class Test extends Command {
 	 */
 	public function fire()
 	{
-		echo "I ran!";
+		//echo "I ran!";
 	}
 
 	/**
@@ -47,7 +47,7 @@ class Test extends Command {
 	 */
 	public function handle()
 	{
-		echo "I ran!";
+		shell_exec("cd hi");
 	}
 
 
