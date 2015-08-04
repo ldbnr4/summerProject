@@ -1,4 +1,2 @@
 #!/bin/bash
-
-touch newfile.txt
-
+date > /last_date_cron_ran
