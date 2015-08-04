@@ -47,7 +47,7 @@ class Test extends Command {
 	 */
 	public function handle()
 	{
-		shell_exec("cd hi");
+		shell_exec("touch newfile.txt");
 	}
 
 
