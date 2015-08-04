@@ -1,2 +1,2 @@
 #!/bin/bash
-php $OPENSHIFT_HOMEDIR/artisan schedule:run
+php $OPENSHIFT_REPO_DIR/artisan schedule:run
