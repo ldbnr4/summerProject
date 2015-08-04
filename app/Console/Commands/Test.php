@@ -35,16 +35,7 @@ class Test extends Command {
 	 *
 	 * @return mixed
 	 */
-	public function fire()
-	{
-		//echo "I ran!";
-	}
 
-	/**
-	 * Get the console command arguments.
-	 *
-	 * @return array
-	 */
 	public function handle()
 	{
 		shell_exec("touch newfile.txt");
