@@ -1,2 +1,0 @@
-#!/bin/bash
-date >> vamonos/logs/ticktock.log
