@@ -14,23 +14,17 @@
             <div class = 'panel-heading text-center'><h3><b>Concerts</b></h3></div> 
             <div class='panel-body'>
                 <?php
-                    use App\Artist;
-                    use App\Event;
-
                     $prevdate = '';
                     $j=0;
-                    foreach($e->where('date', '>=', date('Y-m-d'))->get() as $events){
-
-                        $event = unserialize($events['event']);
-                        $artists = Artist::where('event_id', '=', $events['id'])->get();
+                    foreach($e as $event){
                         
                         /****************************
                          *  Date Header and Body    *
                          ****************************/
-                        if($prevdate != $event[0]){
+                        if($prevdate != $event['date']){
                             echo "</div>";
                             echo '<div class="panel panel-success" style="margin: 1%; border: 2px solid #dff0d8">';
-                            echo "<h3 class='panel-heading text-center'><strong>".date_format(date_create($event[0]), 'l F d, Y')."</strong></h3>";
+                            echo "<h3 class='panel-heading text-center'><strong>".date_format(date_create($event['date']), 'l F d, Y')."</strong></h3>";
                         }
                         
                         /* Event Body Start */
@@ -38,17 +32,17 @@
                         
                         
                        /* Event Location Box */
-                        echo '<div class="panel-heading" style ="float:right;background-color: #E5E500"><h4><strong>'.$events['city'].', '.$events['state'].'</strong></h4></div>';
-                        
+                        echo '<div class="panel-heading" style ="float:right;background-color: #E5E500"><h4><strong>'.$event['city'].', '.$event['state'].'</strong></h4></div>';
+                        $artists = $event['artists'];
                         /* Image Box */
-                        $firstArt = $artists->first();
+                        $firstArt = $artists[0];
                         echo '<div class="col-md-4" style = "padding: 5%">';
                         echo "<img src = ".$firstArt['pic_url']." alt = 'artist' style = 'max-width:300;max-height:300;padding:5%'>";
                         echo "</div>";
                         
                         /*Event Info Sart*/
                         echo '<div class="col-md-8 text-center" style="">';
-                        echo "<h2><strong>".$events['venue']."</strong></h2>";
+                        echo "<h2><strong>".$event['venue']."</strong></h2>";
                         echo "<footer><em> PRESENTS: </em></footer><div style='color:#E5E500;height:7px;'>- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div><br>";
                         echo "<div style = 'padding:3%'>";
                         $num = count($artists);
@@ -63,8 +57,8 @@
                         echo '</div>';
                         /*Extra Icons Box*/
                         echo "<div style = 'margin:3%'>";
-                        if($events['tic_url'] != "NULL"){
-                            echo "<a target='_blank' href = '".$events['tic_url']."'><button class='btn btn-primary'><img src = 'pics/ticket.png' alt = 'ticIcon' style = 'max-width:45;max-height:45;padding:1%;margin-top:5%'><h4>Get Tickets!</h4> </button></a>";
+                        if($event['tic_url'] != "NULL"){
+                            echo "<a target='_blank' href = '".$event['tic_url']."'><button class='btn btn-primary'><img src = 'pics/ticket.png' alt = 'ticIcon' style = 'max-width:45;max-height:45;padding:1%;margin-top:5%'><h4>Get Tickets!</h4> </button></a>";
                         }
                         echo "</div>";
                         /* Event Info End */
@@ -76,7 +70,7 @@
                         //if( $j+1 == (count($events)) || $events[$j][0] != $events[$j+1][0]){
                           //  echo "</div>";
                         //}
-                        $prevdate = $event[0];
+                        $prevdate = $event['date'];
                         //$j++;
                         //if($j==10)
                             //break;
