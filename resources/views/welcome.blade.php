@@ -1,7 +1,21 @@
 <html>
 	<head>
 		<title>Vamos</title>
+        <script type='text/javascript' src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script type='text/javascript' src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script type='text/javascript' src="https://esimakin.github.io/twbs-pagination/js/jquery.twbsPagination.js"></script>
+<script type='text/javascript'>//<![CDATA[ 
+$(window).load(function(){
+$('#pagination-demo').twbsPagination({
+        totalPages: "51",
+        visiblePages: "10",
+        onPageClick: function (event, page) {
+            $('#page-content').text('Page ' + page);
+        }
+});
+});//]]>  
+</script>
 	</head>
 	<body>
         <div class ="navbar navbar-inverse">
@@ -10,6 +24,10 @@
                 echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near {$city}, {$stateFull}</b></h1>";
             ?>
         </div>
+        <div id="page-content" class="well">Page 1</div>
+        <!--<div class="col-md-4">-->
+            <ul id="pagination-demo" class="pagination pagination-sm"></ul>
+       <!-- </div>-->
         <div class="panel panel-primary" style="margin-left: 15%; margin-right: 15%">
             <div class = 'panel-heading text-center'><h3><b>Concerts</b></h3></div> 
             <div class='panel-body'>
