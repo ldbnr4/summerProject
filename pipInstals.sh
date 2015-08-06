@@ -1,7 +1,0 @@
-cd ENV/bin
-source activate
-pip install lxml -I
-pip install requests -I
-pip install HTMLParser -I 
-pip install datetime -I
-pip install python-dateutil -I

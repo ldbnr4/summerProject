@@ -7,11 +7,10 @@ if [[ "$unamestr" == 'Linux' ]]; then
 else
     virtualenv ENV --system-site-packages
     cd ENV
-fi
-
-directory="./Scripts"
-if [ -d $directory ]; then
-  mv Scripts bin
+    directory="./Scripts"
+    if [ -d $directory ]; then
+      mv Scripts bin
+    fi
 fi
 
 cd ..
