@@ -145,14 +145,7 @@ class WelcomeController extends Controller {
         $zip = trim($location[3]);
         //$zip = 66062;
         $stateFull = trim($location[1]);
-        if(!(file_exists('ENV'))){
-            shell_exec('bash .././setUpVE.sh');
-        }
-        if(trim(shell_exec('uname')) == 'Linux'){
-            if(!(file_exists('ENV/lib/python2.6/site-packages/lxml'))){
-                shell_exec('bash .././pipInstals.sh');
-            }
-        }
+
         $e = getCompleteEs($zip);
         
         
