@@ -1,5 +1,6 @@
 #!/bin/bash
 
+unamestr=`uname`
 if [[ "$unamestr" == 'Linux' ]]; then
    virtualenv ${OPENSHIFT_REPO_DIR}/ENV
    cd ${OPENSHIFT_REPO_DIR}/ENV
