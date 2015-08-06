@@ -55,7 +55,7 @@ class WelcomeController extends Controller {
         
         function getCompleteEs($zipC){  
             $completeEsArray = array();
-            echo shell_exec('bash ./getEsPY.sh '.$zipC);
+            echo shell_exec('bash ../getEsPY.sh '.$zipC);
             $eString = file_get_contents ('../ENV/bin/events.txt');
             if(strlen($eString) > 2 && $eString != 'NULL'){
                 $eArray = explode('|', $eString);
@@ -109,7 +109,7 @@ class WelcomeController extends Controller {
                                 $artArray['name'] = $art;
                                 $newArt = Artist::where( 'name', '=', $art);
                                 if($newArt->count() == 0){
-                                    shell_exec('bash ./getPicPY.sh '.urlencode($art));
+                                    shell_exec('bash ../getPicPY.sh '.urlencode($art));
                                     $pic_url = file_get_contents('../ENV/bin/pic.txt');
                                     if(is_null($pic_url) || $pic_url == ''){
                                         $pic_url = 'pics/concert.jpg';

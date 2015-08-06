@@ -222,14 +222,6 @@ class PythonS extends Command {
                 }
                 
                 if(is_null($ZEcheck) || $months < 3){
-                    if(!(file_exists('ENV'))){
-                        shell_exec('bash ./setUpVE.sh');
-                    }
-                    if(trim(shell_exec('uname')) == 'Linux'){
-                        if(!(file_exists('ENV/lib/python2.6/site-packages/lxml'))){
-                            shell_exec('bash ./pipInstals.sh');
-                        }
-                    }
                     JB($zip['zipCode'], $dbZipId);
                 }
                 else{
