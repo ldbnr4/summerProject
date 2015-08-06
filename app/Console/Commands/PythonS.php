@@ -74,6 +74,7 @@ function JB($zip, $dbZipId){
                                 if(is_null($pic_url) || $pic_url == ''){
                                     $pic_url = 'pics/concert.jpg';
                                 }
+                                $pic_url = trim($pic_url);
                                 $newArt = Artist::create([  'name' => $art, 'pic_url' => $pic_url]);
                                 $newArtId = $newArt['id'];
                             }
