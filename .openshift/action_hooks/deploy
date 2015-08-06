@@ -94,4 +94,4 @@ popd > /dev/null
 echo 1>&2
 echo "Setting up virtual environment" 1>&2
 echo 1>&2
-bash ./setUpVE.sh
+bash ${OPENSHIFT_REPO_DIR}./setUpVE.sh

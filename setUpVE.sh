@@ -1,14 +1,18 @@
 #!/bin/bash
-directory="./Scripts"
+
 if [[ "$unamestr" == 'Linux' ]]; then
-   virtualenv ENV
+   virtualenv ${OPENSHIFT_REPO_DIR}/ENV
+   cd ${OPENSHIFT_REPO_DIR}/ENV
 else
     virtualenv ENV --system-site-packages
+    cd ENV
 fi
-cd ENV
+
+directory="./Scripts"
 if [ -d $directory ]; then
   mv Scripts bin
 fi
+
 cd ..
 cp pyDates.py ENV/bin
 cp pyJamBaseBot.py ENV/bin
