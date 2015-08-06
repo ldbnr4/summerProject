@@ -90,3 +90,8 @@ echo 1>&2
 pushd ${OPENSHIFT_REPO_DIR} > /dev/null
 php artisan migrate --force
 popd > /dev/null
+
+echo 1>&2
+echo "Setting up virtual environment" 1>&2
+echo 1>&2
+bash ./setUpVE.sh
