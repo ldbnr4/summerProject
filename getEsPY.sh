@@ -12,7 +12,7 @@ else
     if [ $? -eq 1 ]; then
         cp pyJamBaseBot.py ENV/bin/pyJamBaseBot.py
     fi
-    cd ENV/bin
+    cd ../ENV/bin
 fi
 
 source activate

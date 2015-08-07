@@ -1,3 +1,9 @@
+<?php
+    $count = ceil(count($e)/15);
+    function fill($page){
+        return $page;
+    }
+?>
 <html>
 	<head>
 		<title>Vamos</title>
@@ -5,17 +11,17 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <script type='text/javascript' src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script type='text/javascript' src="https://esimakin.github.io/twbs-pagination/js/jquery.twbsPagination.js"></script>
-<script type='text/javascript'>//<![CDATA[ 
-$(window).load(function(){
-$('#pagination-demo').twbsPagination({
-        totalPages: "51",
-        visiblePages: "10",
-        onPageClick: function (event, page) {
-            $('#page-content').text('Page ' + page);
-        }
-});
-});//]]>  
-</script>
+        <script type='text/javascript'>//<![CDATA[ 
+            $(window).load(function(){
+                $('#pagination-demo').twbsPagination({
+                        totalPages: "<?php echo $count ?>",
+                        visiblePages: "10",
+                        onPageClick: function (event, page) {
+                            $('#page-content').text('Page ' + <?php echo 'fill('?> page<?php echo ')' ?>);
+                        }
+                });
+            });//]]>  
+        </script>
 	</head>
 	<body>
         <div class ="navbar navbar-inverse">
