@@ -15,9 +15,7 @@ use DB;
 function JB($zip, $dbZipId){
     //echo 'Getting events for '.$zip."\n";
     $lin = false;
-    var_dump (shell_exec('uname'));
-    var_dump(PHP_OS);
-    if((shell_exec('uname')) == 'Linux'){
+    if(PHP_OS == 'Linux'){
         shell_exec('bash $OPENSHIFT_REPO_DIR/getEsPY.sh '.$zip);
         $eString = file_get_contents ('$OPENSHIFT_REPO_DIR/ENV/bin/events.txt');
         $lin = true;
@@ -153,7 +151,12 @@ function JB($zip, $dbZipId){
         }
     }
     else{
-        $f = fopen("bad_zips.txt","a");
+        if(PHP_OS == 'Linux'){
+            $f = fopen('$OPENSHIFT_REPO_DIR/bad_zips.txt',"a");
+        }
+        else{
+            $f = fopen('bad_zips.txt',"a");
+        }
         fwrite($f,$zip." ");
         fclose($f);
     }
@@ -203,7 +206,12 @@ class PythonS extends Command {
         var_dump ($zips[27430]->clusters);
         return;*/
         if(count(DB::table('zips')->get()) == 0 ){
-           $file = fopen("cities.csv","r");
+            if(PHP_OS == 'Linux'){
+                $file = fopen('$OPENSHIFT_REPO_DIR/cities.csv',"r");
+            }
+            else{
+                $file = fopen('cities.csv',"r");
+            }
             while(!feof($file)){  
                 $line = (fgetcsv($file));
                 if(is_numeric(trim($line[0]))){
@@ -214,7 +222,12 @@ class PythonS extends Command {
 
                     }
                     $zip = trim($zip);
-                    $noEs = file_get_contents('noEs_zips.txt');
+                    if(PHP_OS == 'Linux'){
+                        $noEs = file_get_contents('$OPENSHIFT_REPO_DIR/noEs_zips.txt');
+                    }
+                    else{
+                        $noEs = file_get_contents('noEs_zips.txt');   
+                    }
                     $noEs = explode (" ", $noEs);
                     array_pop($noEs);
                     if(!(in_array($zip, $noEs))){
