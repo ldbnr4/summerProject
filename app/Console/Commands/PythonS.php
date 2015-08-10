@@ -15,6 +15,9 @@ use DB;
 function JB($zip, $dbZipId){
     //echo 'Getting events for '.$zip."\n";
     $lin = false;
+    var_dump($_SERVER['HTTP_HOST']);
+    var_dump( dirname($_SERVER['SCRIPT_NAME']) );
+    file_get_contents('http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']) . '/../file.php?this=that');
     if(PHP_OS == 'Linux'){
         shell_exec('bash $OPENSHIFT_REPO_DIR/getEsPY.sh '.$zip);
         $eString = file_get_contents ('$OPENSHIFT_REPO_DIR/ENV/bin/events.txt');
