@@ -13,9 +13,16 @@ use App\EventArtist;
 use DB;
 
 function JB($zip, $dbZipId){
-    echo 'Getting events for '.$zip."\n";
+    //echo 'Getting events for '.$zip."\n";
     shell_exec('bash ./getEsPY.sh '.$zip);
-    $eString = file_get_contents ('ENV/bin/events.txt');
+    $lin = false;
+    if(shell_exec('uname') == 'Linux'){
+        $eString = file_get_contents ('$OPENSHIFT_REPO_DIR/ENV/bin/events.txt');
+        $lin = true;
+    }
+    else{
+        $eString = file_get_contents ('ENV/bin/events.txt');
+    }
     if(strlen($eString) > 2 && $eString != 'NULL'){
         $eArray = explode('|', $eString);
         $eArray = str_replace('[', '',$eArray);
@@ -59,18 +66,22 @@ function JB($zip, $dbZipId){
 
                     ZipEvent::create(['event_id' => $newE['id'], 'zip_id' => $dbZipId, 'date' => $date]);*/
                     if(count($artist) >= 1){
-                        echo "There are ".count($artist)." artists for just created event ".$newE['id'].".\n";
+                        //echo "There are ".count($artist)." artists for just created event ".$newE['id'].".\n";
                         foreach($artist as $art){
                             $art = trim($art);
                             if($art == ''){
                                 $art = "Unkown";
                             }
-                            echo "Looking for ".$art." in ARTIST db.\n";
+                            //echo "Looking for ".$art." in ARTIST db.\n";
                             $newArt = Artist::where( 'name', '=', $art);
                             if($newArt->count() == 0){
-                                echo "New artist. Getting photo of ".$art.".\n";
+                                //echo "New artist. Getting photo of ".$art.".\n";
                                 shell_exec('bash ./getPicPY.sh '.urlencode($art));
-                                $pic_url = file_get_contents('ENV/bin/pic.txt');
+                                if($lin){
+                                    $pic_url = file_get_contents('$OPENSHIFT_REPO_DIR/ENV/bin/pic.txt');
+                                }else{
+                                    $pic_url = file_get_contents('ENV/bin/pic.txt');
+                                }
                                 if(is_null($pic_url) || $pic_url == ''){
                                     $pic_url = 'pics/concert.jpg';
                                 }
@@ -99,7 +110,7 @@ function JB($zip, $dbZipId){
                         }
                     }
                     else{
-                        echo 'There are NO artists for this event.'."\n"; 
+                        //echo 'There are NO artists for this event.'."\n"; 
                     }
                 }
                 /*else{
@@ -134,7 +145,7 @@ function JB($zip, $dbZipId){
                     }
                 }*/
             }
-            echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~Moving on to next event~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+            //echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~Moving on to next event~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
         }
     }
     else{
@@ -142,7 +153,7 @@ function JB($zip, $dbZipId){
         fwrite($f,$zip." ");
         fclose($f);
     }
-    echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~Done with ".$zip."~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+    //echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~Done with ".$zip."~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 }
 
 class PythonS extends Command {
@@ -226,7 +237,7 @@ class PythonS extends Command {
                     JB($zip['zipCode'], $dbZipId);
                 }
                 else{
-                    echo "No events needed for ".$zip['zipCode']."\n";
+                    //echo "No events needed for ".$zip['zipCode']."\n";
                 }
 
 
