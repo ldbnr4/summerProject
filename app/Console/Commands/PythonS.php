@@ -15,6 +15,8 @@ use DB;
 function JB($zip, $dbZipId){
     //echo 'Getting events for '.$zip."\n";
     $lin = false;
+    var_dump (shell_exec('uname'));
+    var_dump(PHP_OS);
     if((shell_exec('uname')) == 'Linux'){
         shell_exec('bash $OPENSHIFT_REPO_DIR/getEsPY.sh '.$zip);
         $eString = file_get_contents ('$OPENSHIFT_REPO_DIR/ENV/bin/events.txt');
@@ -40,7 +42,7 @@ function JB($zip, $dbZipId){
             $event[6] = str_replace(" ", '', $event[6]);
             $event[6] = str_replace("'", '', $event[6]);
             $e = trim(serialize($event));
-            $dateBuf = strtotime(trim($event[1]));
+            $dateBuf = u(trim($event[1]));
             $date = date('Y-m-d', $dateBuf);
             $ven = trim($event[3]);
             $city = trim($event[4]);
