@@ -16,7 +16,7 @@ function JB($zip, $dbZipId){
     //echo 'Getting events for '.$zip."\n";
     shell_exec('bash ./getEsPY.sh '.$zip);
     $lin = false;
-    if(shell_exec('uname') == 'Linux'){
+    if((shell_exec('uname')) == 'Linux'){
         $eString = file_get_contents ('$OPENSHIFT_REPO_DIR/ENV/bin/events.txt');
         $lin = true;
     }
