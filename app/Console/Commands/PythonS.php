@@ -152,7 +152,7 @@ function JB($zip, $dbZipId){
     }
     else{
         if(PHP_OS == 'Linux'){
-            $f = fopen('$OPENSHIFT_REPO_DIR/bad_zips.txt',"a");
+            $f = fopen(dirname($_SERVER['SCRIPT_NAME']).'bad_zips.txt',"a");
         }
         else{
             $f = fopen('bad_zips.txt',"a");
@@ -207,7 +207,7 @@ class PythonS extends Command {
         return;*/
         if(count(DB::table('zips')->get()) == 0 ){
             if(PHP_OS == 'Linux'){
-                $file = fopen('$OPENSHIFT_REPO_DIR/cities.csv',"r");
+                $file = fopen(dirname($_SERVER['SCRIPT_NAME']).'cities.csv',"r");
             }
             else{
                 $file = fopen('cities.csv',"r");
