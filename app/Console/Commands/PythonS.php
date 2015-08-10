@@ -40,7 +40,7 @@ function JB($zip, $dbZipId){
             $event[6] = str_replace(" ", '', $event[6]);
             $event[6] = str_replace("'", '', $event[6]);
             $e = trim(serialize($event));
-            $dateBuf = u(trim($event[1]));
+            $dateBuf = (trim($event[1]));
             $date = date('Y-m-d', $dateBuf);
             $ven = trim($event[3]);
             $city = trim($event[4]);
@@ -79,7 +79,7 @@ function JB($zip, $dbZipId){
                                 //echo "New artist. Getting photo of ".$art.".\n";
                                 if($lin){
                                     shell_exec('bash $OPENSHIFT_REPO_DIR/getPicPY.sh '.urlencode($art));
-                                    $pic_url = file_get_contents('$OPENSHIFT_REPO_DIR/ENV/bin/pic.txt');
+                                    $pic_url = file_get_contents(dirname($_SERVER['SCRIPT_NAME']).'/ENV/bin/pic.txt');
                                 }else{
                                     shell_exec('bash ./getPicPY.sh '.urlencode($art));
                                     $pic_url = file_get_contents('ENV/bin/pic.txt');
@@ -223,7 +223,7 @@ class PythonS extends Command {
                     }
                     $zip = trim($zip);
                     if(PHP_OS == 'Linux'){
-                        $noEs = file_get_contents('$OPENSHIFT_REPO_DIR/noEs_zips.txt');
+                        $noEs = file_get_contents(dirname($_SERVER['SCRIPT_NAME']).'noEs_zips.txt');
                     }
                     else{
                         $noEs = file_get_contents('noEs_zips.txt');   
