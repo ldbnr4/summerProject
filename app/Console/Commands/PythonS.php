@@ -67,7 +67,7 @@ function JB($zip, $dbZipId){
                     ZipEvent::create(['event_id' => $newE['id'], 'zip_id' => $dbZipId, 'date' => $date]);*/
                     if(count($artist) >= 1){
                         //echo "There are ".count($artist)." artists for just created event ".$newE['id'].".\n";
-                        foreach($artist as $art){g
+                        foreach($artist as $art){
                             $art = trim($art);
                             if($art == ''){
                                 $art = "Unkown";
