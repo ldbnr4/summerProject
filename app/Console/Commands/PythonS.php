@@ -14,13 +14,14 @@ use DB;
 
 function JB($zip, $dbZipId){
     //echo 'Getting events for '.$zip."\n";
-    shell_exec('bash ./getEsPY.sh '.$zip);
     $lin = false;
     if((shell_exec('uname')) == 'Linux'){
+        shell_exec('bash $OPENSHIFT_REPO_DIR/getEsPY.sh '.$zip);
         $eString = file_get_contents ('$OPENSHIFT_REPO_DIR/ENV/bin/events.txt');
         $lin = true;
     }
     else{
+        shell_exec('bash ./getEsPY.sh '.$zip);
         $eString = file_get_contents ('ENV/bin/events.txt');
     }
     if(strlen($eString) > 2 && $eString != 'NULL'){
@@ -52,7 +53,7 @@ function JB($zip, $dbZipId){
                         $dbE['event'] = trim(serialize($event))
                     }
                 });*/
-                echo "Checking EVENT db for event.\n";
+                //echo "Checking EVENT db for event.\n";
                 $echeck = Event::where('event', '=', $e)->count();
                 if ($echeck == 0){
                     /*echo "Event not in EVENT db. Adding it.\n";
@@ -76,10 +77,11 @@ function JB($zip, $dbZipId){
                             $newArt = Artist::where( 'name', '=', $art);
                             if($newArt->count() == 0){
                                 //echo "New artist. Getting photo of ".$art.".\n";
-                                shell_exec('bash ./getPicPY.sh '.urlencode($art));
                                 if($lin){
+                                    shell_exec('bash $OPENSHIFT_REPO_DIR/getPicPY.sh '.urlencode($art));
                                     $pic_url = file_get_contents('$OPENSHIFT_REPO_DIR/ENV/bin/pic.txt');
                                 }else{
+                                    shell_exec('bash ./getPicPY.sh '.urlencode($art));
                                     $pic_url = file_get_contents('ENV/bin/pic.txt');
                                 }
                                 if(is_null($pic_url) || $pic_url == ''){
