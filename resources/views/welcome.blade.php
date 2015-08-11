@@ -1,8 +1,5 @@
 <?php
     $count = ceil(count($e)/15);
-    function fill($page){
-        return $page;
-    }
 ?>
 <html>
 	<head>
@@ -12,12 +9,21 @@
         <script type='text/javascript' src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script type='text/javascript' src="https://esimakin.github.io/twbs-pagination/js/jquery.twbsPagination.js"></script>
         <script type='text/javascript'>//<![CDATA[ 
+            var events = Array();
+            <?php 
+                for($x=1;$x<=$count;$x++){
+                    $start = $x*15;
+                    $chunk = array_slice($e,$start,15);
+                    
+                    echo "events.push(".var_dump($chunk).");";
+                }
+            ?>
             $(window).load(function(){
                 $('#pagination-demo').twbsPagination({
                         totalPages: "<?php echo $count ?>",
                         visiblePages: "10",
                         onPageClick: function (event, page) {
-                            $('#page-content').text('Page ' + <?php echo 'fill('?> page<?php echo ')' ?>);
+                            $('#page-content').text(events[page]);
                         }
                 });
             });//]]>  
