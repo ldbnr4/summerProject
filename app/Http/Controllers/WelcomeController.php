@@ -153,5 +153,8 @@ class WelcomeController extends Controller {
         
         
 	}
+    public function update(){
+        return "hi babe ;)";
+    }
 
 }
