@@ -237,6 +237,7 @@ class PythonS extends Command {
             }
             fclose($file);
         }
+        return;
         Zip::chunk(500, function($zips){
             foreach($zips as $zip){
                 $dbZipId = $zip['id'];

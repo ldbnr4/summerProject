@@ -3,6 +3,7 @@
 use App\Event;
 use App\Zip;
 use App\Artist;
+use DB;
 
 class WelcomeController extends Controller {
 
@@ -138,8 +139,8 @@ class WelcomeController extends Controller {
             return $completeEsArray;
         }
         
-        //$location = getLocation(getRealIpAddr());
-        $location = getLocation('204.77.163.50');
+        $location = getLocation(getRealIpAddr());
+        //$location = getLocation('204.77.163.50');
         $city = trim($location[2]);
         $state = trim($location[0]);
         $zip = trim($location[3]);
@@ -147,14 +148,68 @@ class WelcomeController extends Controller {
         $stateFull = trim($location[1]);
 
         $e = getCompleteEs($zip);
+        $ARTNUM = DB::table('artists')->count();
         
         
-        return view('welcome', compact('e', 'city', 'stateFull'));
+        return view('welcome', compact('e', 'city', 'stateFull', 'ARTNUM'));
         
         
 	}
-    public function update(){
-        return "hi babe ;)";
+    
+    public function update()	{
+        set_time_limit ( 1000000 );
+        function JB($zip){
+            echo shell_exec('bash ../getEsPY.sh '.$zip);
+            $eString = file_get_contents ('../ENV/bin/events.txt');
+            if(strlen($eString) > 2 && $eString != 'NULL'){
+                $eArray = explode('|', $eString);
+                $eArray = str_replace('[', '',$eArray);
+                $eArray = str_replace(']', '',$eArray);
+                unset($eArray[0]);
+                foreach ($eArray as $eventA){
+                    $event = explode(';', $eventA);
+                    unset($event[0]);
+                    $event = str_replace("', '", '', $event);
+                    $event = str_replace("\", \"", '', $event);
+                    $event = str_replace("', \"", '', $event);
+                    $event = str_replace("\", '", '', $event);
+                    if( count($event) == 6 ){
+                        $artist = explode(':', $event[2]);
+                        if(count($artist) >= 1){
+                            foreach($artist as $art){
+                                $art = trim($art);
+                                if($art == ''){
+                                    $art = "Unkown";
+                                }
+                                $newArt = Artist::where( 'name', '=', $art);
+                                if($newArt->count() == 0){
+                                    shell_exec('bash ../getPicPY.sh '.urlencode($art));
+                                    $pic_url = file_get_contents('../ENV/bin/pic.txt');
+                                    if(is_null($pic_url) || $pic_url == ''){
+                                        $pic_url = 'pics/concert.jpg';
+                                    }
+                                    $pic_url = trim($pic_url);
+                                    $newArt = Artist::create([  'name' => $art, 'pic_url' => $pic_url]);
+                                    $newArtId = $newArt['id'];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                $f = fopen("bad_zips.txt","a");
+                fwrite($f,$zip." ");
+                fclose($f);
+            }
+        }
+        
+        $zips = (DB::table('zips')->get());
+        foreach($zips as $zip){
+            JB($zip->zipCode);
+        }
+        
+        return(DB::table('artists')->count());
     }
 
 }
