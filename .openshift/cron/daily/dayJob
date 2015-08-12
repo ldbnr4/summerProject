@@ -1,3 +1,18 @@
 #!/bin/bash
-cd $OPENSHIFT_REPO_DIR
+
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+    cmp -s ${OPENSHIFT_REPO_DIR}/update_events.py ${OPENSHIFT_REPO_DIR}/ENV/bin/update_events.py > /dev/null
+    if [ $? -eq 1 ]; then
+        cp ${OPENSHIFT_REPO_DIR}/update_events.py ${OPENSHIFT_REPO_DIR}/ENV/bin/update_events.py
+    fi
+    cd ${OPENSHIFT_REPO_DIR}/ENV/bin
+else
+    cmp -s update_events.py ENV/bin/update_events.py > /dev/null
+    if [ $? -eq 1 ]; then
+        cp update_events.py ENV/bin/update_events.py
+    fi
+    cd ../ENV/bin
+fi
+source activate
 python update_events.py

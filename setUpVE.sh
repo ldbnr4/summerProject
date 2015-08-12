@@ -17,6 +17,7 @@ cd ..
 cp pyDates.py ENV/bin
 cp pyJamBaseBot.py ENV/bin
 cp pyPicBot.py ENV/bin
+cp update_events.py ENV/bin
 cd ENV/bin
 source activate
 unamestr=`uname`

@@ -1,7 +1,5 @@
-import mechanize
+import requests
 
-br = mechanize.Browser()
-br.set_handle_robots(False)   # ignore robots
-response = br.open('http://vamonos-vamos.rhcloud.com/update')
-print response.read()
+page = requests.get('http://vamonos-vamos.rhcloud.com/update')
+print page.text
 
