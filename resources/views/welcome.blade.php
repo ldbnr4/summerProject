@@ -44,6 +44,8 @@
             <div class = 'panel-heading text-center'><h3><b>Concerts</b></h3></div> 
             <div class='panel-body'>
                 <?php
+                    use DB;
+                    echo  DB::table('artists')->count();
                     $prevdate = '';
                     $j=0;
                     foreach($e as $event){
