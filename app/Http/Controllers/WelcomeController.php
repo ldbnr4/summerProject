@@ -157,7 +157,6 @@ class WelcomeController extends Controller {
 	}
     
     public function update()	{
-        return "hi";
         set_time_limit ( 1000000 );
         function JB($zip){
             echo shell_exec('bash ../getEsPY.sh '.$zip);
