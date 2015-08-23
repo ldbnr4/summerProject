@@ -211,5 +211,9 @@ class WelcomeController extends Controller {
         
         return(DB::table('artists')->count());
     }
+    public function test(){
+     
+        return "hi";
+    }
 
 }
