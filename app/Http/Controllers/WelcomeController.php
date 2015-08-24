@@ -139,8 +139,8 @@ class WelcomeController extends Controller {
             return $completeEsArray;
         }
         
-        //$location = getLocation(getRealIpAddr());
-        $location = getLocation('204.77.163.50');
+        $location = getLocation(getRealIpAddr());
+        //$location = getLocation('204.77.163.50');
         $city = trim($location[2]);
         $state = trim($location[0]);
         $zip = trim($location[3]);
@@ -211,6 +211,7 @@ class WelcomeController extends Controller {
         
         return(DB::table('artists')->count());
     }
+    
     public function test(){
      
         return "hi";
