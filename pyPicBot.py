@@ -9,7 +9,7 @@ def getPic( name ):
         f.write('pics/concert.jpg')
         return
     tree = html.fromstring(page.text)
-    rows = tree.xpath('//img[@itemprop="image"]/@src')
+    rows = tree.xpath('//img[@class="avatar"]/@src')
     if len(rows) is 0:
         #print 'pics/concert.jpg'
         f.write('pics/concert.jpg')
