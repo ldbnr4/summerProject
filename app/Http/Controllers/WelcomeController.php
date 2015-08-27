@@ -213,8 +213,12 @@ class WelcomeController extends Controller {
     }
     
     public function test(){
+        
+        $ARTNUM = DB::table('artists')->count();
+        $LAST10 = DB::table('artists')->orderBy('updated_at','desc')->take(10)->get();
+        $DUPS = DB::table('artists')->select(DB::raw('name', 'count(*)'))->groupBy('name')->having(DB::raw('count(*)'),'>',1)->get();
      
-        return "hi";
+        return view('stats', compact('ARTNUM','LAST10','DUPS'));
     }
 
 }
