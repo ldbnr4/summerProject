@@ -36,15 +36,14 @@
                 echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near {$city}, {$stateFull}</b></h1>";
             ?>
         </div>
-        <div id="page-content" class="well">Page 1</div>
+        <!--<div id="page-content" class="well">Page 1</div>-->
         <!--<div class="col-md-4">-->
-            <ul id="pagination-demo" class="pagination pagination-sm"></ul>
+            <!--<ul id="pagination-demo" class="pagination pagination-sm"></ul>-->
        <!-- </div>-->
-        <div class="panel panel-primary" style="margin-left: 15%; margin-right: 15%">
+        <div class="panel panel-primary" style="margin-left: 30%; margin-right: 30%">
             <div class = 'panel-heading text-center'><h3><b>Concerts</b></h3></div> 
             <div class='panel-body'>
                 <?php
-                    echo $ARTNUM;
                     $prevdate = '';
                     $j=0;
                     foreach($e as $event){
@@ -89,7 +88,7 @@
                         /*Extra Icons Box*/
                         echo "<div style = 'margin:3%'>";
                         if($event['tic_url'] != "NULL"){
-                            echo "<a target='_blank' href = '".$event['tic_url']."'><button class='btn btn-primary'><img src = 'pics/ticket.png' alt = 'ticIcon' style = 'max-width:45;max-height:45;padding:1%;margin-top:5%'><h4>Get Tickets!</h4> </button></a>";
+                            echo "<a target='_blank' href = '".$event['tic_url']."'><button class='btn btn-primary'><img src = 'pics/ticket.png' alt = 'ticIcon' style = 'max-width:25;max-height:25;padding:1%;margin-top:5%'><h4>Get Tickets!</h4> </button></a>";
                         }
                         echo "</div>";
                         /* Event Info End */

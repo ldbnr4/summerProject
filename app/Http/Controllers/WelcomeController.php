@@ -144,14 +144,12 @@ class WelcomeController extends Controller {
         $city = trim($location[2]);
         $state = trim($location[0]);
         $zip = trim($location[3]);
-        //$zip = 66062;
         $stateFull = trim($location[1]);
 
         $e = getCompleteEs($zip);
-        $ARTNUM = DB::table('artists')->count();
         
         
-        return view('welcome', compact('e', 'city', 'stateFull', 'ARTNUM'));
+        return view('welcome', compact('e', 'city', 'stateFull'));
         
         
 	}
