@@ -1,6 +1,6 @@
 #!/bin/bash
 
 unamestr=`date +%a`
-if [[ "$unamestr" == 'Tues' ]]; then
+if [[ "$unamestr" == 'Wed' ]]; then
     curl http://vamonos-vamos.rhcloud.com/update
 fi
