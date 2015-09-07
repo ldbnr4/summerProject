@@ -18,6 +18,7 @@ cp pyDates.py ENV/bin
 cp pyJamBaseBot.py ENV/bin
 cp pyPicBot.py ENV/bin
 cp update_events.py ENV/bin
+cp pyIpBot.py ENV/bin
 cd ENV/bin
 source activate
 unamestr=`uname`
@@ -27,4 +28,5 @@ if [[ "$unamestr" == 'Linux' ]]; then
     pip install HTMLParser
     pip install datetime
     pip install python-dateutil
+    pip install beautifulsoup4
 fi

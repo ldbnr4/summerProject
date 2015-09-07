@@ -139,17 +139,17 @@ class WelcomeController extends Controller {
             return $completeEsArray;
         }
         
-        $location = getLocation(getRealIpAddr());
-        //$location = getLocation('204.77.163.50');
-        $city = trim($location[2]);
+        //$location = shell_exec('bash ../getIPPY.sh 204.77.163.50');
+        $location = shell_exec('bash ../getIPPY.sh '.getRealIpAddr());
+        $location = explode("\n",$location);
+        $city = trim($location[1]);
         $state = trim($location[0]);
-        $zip = trim($location[3]);
-        $stateFull = trim($location[1]);
+        $zip = trim($location[2]);
 
         $e = getCompleteEs($zip);
         
         
-        return view('welcome', compact('e', 'city', 'stateFull'));
+        return view('welcome', compact('e', 'city', 'state'));
         
         
 	}

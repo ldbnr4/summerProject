@@ -33,7 +33,7 @@
         <div class ="navbar navbar-inverse">
             <?php
 
-                echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near {$city}, {$stateFull}</b></h1>";
+                echo "<h1 style='color:white' class ='text-right'> <b style='margin-right: 1%'>Concerts near {$city}, {$state}</b></h1>";
             ?>
         </div>
         <!--<div id="page-content" class="well">Page 1</div>-->

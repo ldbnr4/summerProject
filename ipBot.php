@@ -1,34 +1,27 @@
 <?php
 function getLocation( $ip ){
-    $html = file_get_contents('http://www.ipaddresslabs.com/IPGeolocationServiceDemo.do?ipaddress='.$ip.'#StandardEditionTab'); 
+    $html = file_get_contents('http://whatismyipaddress.com/ip/'.$ip); 
     $dom = new DOMDocument();
     @$dom->loadHTML( $html ); 
     $xpath = new DOMXPath($dom);
-    $tableCol = $xpath->query('//td[@*]');
+    $tableCol = $xpath->query('//th[@*]');
     $ret = array();
     foreach ($tableCol as $col){
-        if (strpos($col->nodeValue, 'postal_code')){
-            $val = $col->nextSibling->nextSibling->nextSibling->nextSibling->nextSibling->nextSibling->textContent;
+        if (strpos($col->nodeValue, 'State/Region:')){
+            $val = $col->nextSibling;
             if(!in_array($val,$ret)){
                 array_push($ret,$val);
             }
         }
-        else if (strpos($col->nodeValue, 'city')){
-            if($col->nextSibling->nextSibling->nextSibling->nextSibling){
-                $val = $col->nextSibling->nextSibling->nextSibling->nextSibling->nextSibling->nextSibling->textContent;
-                if(!in_array($val,$ret)){
-                    array_push($ret,$val);
-                }
-            }
-        }
-        if (strpos($col->nodeValue, 'region_code')){
-            $val = $col->nextSibling->nextSibling->nextSibling->nextSibling->nextSibling->nextSibling->textContent;
+        else if (strpos($col->nodeValue, 'City:')){
+            $val = $col->nextSibling;
             if(!in_array($val,$ret)){
                 array_push($ret,$val);
             }
+            
         }
-        if (strpos($col->nodeValue, 'region_name')){
-            $val = $col->nextSibling->nextSibling->nextSibling->nextSibling->nextSibling->nextSibling->textContent;
+        if (strpos($col->nodeValue, 'Postal Code:')){
+            $val = $col->nextSibling;
             if(!in_array($val,$ret)){
                 array_push($ret,$val);
             }
